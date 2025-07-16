@@ -1,63 +1,82 @@
 export const theme = {
   colors: {
-    // Primary Hollywood Gold & Black
+    // Vibrant Primary Colors - Electric Blue to Purple
     primary: {
-      50: '#fffbeb',
-      100: '#fef3c7',
-      200: '#fde68a',
-      300: '#fcd34d',
-      400: '#fbbf24',
-      500: '#f59e0b', // Main gold
-      600: '#d97706',
-      700: '#b45309',
-      800: '#92400e',
-      900: '#78350f',
-      950: '#451a03',
+      50: '#f0f9ff',
+      100: '#e0f2fe',
+      200: '#bae6fd',
+      300: '#7dd3fc',
+      400: '#38bdf8',
+      500: '#0ea5e9', // Main electric blue
+      600: '#0284c7',
+      700: '#0369a1',
+      800: '#075985',
+      900: '#0c4a6e',
+      950: '#082f49',
     },
     
-    // Elegant Grays & Blacks
-    neutral: {
-      50: '#fafafa',
-      100: '#f5f5f5',
-      200: '#e5e5e5',
-      300: '#d4d4d4',
-      400: '#a3a3a3',
-      500: '#737373',
-      600: '#525252',
-      700: '#404040',
-      800: '#262626',
-      900: '#171717',
-      950: '#0a0a0a',
+    // Secondary - Electric Purple to Pink
+    secondary: {
+      50: '#fdf4ff',
+      100: '#fae8ff',
+      200: '#f5d0fe',
+      300: '#f0abfc',
+      400: '#e879f9',
+      500: '#d946ef', // Main electric purple
+      600: '#c026d3',
+      700: '#a21caf',
+      800: '#86198f',
+      900: '#701a75',
+      950: '#4a044e',
     },
     
-    // Accent Colors
+    // Accent Colors - Neon & Electric
     accent: {
-      red: '#dc2626', // Hollywood red
-      emerald: '#059669', // Success green
-      blue: '#2563eb', // Trust blue
-      purple: '#7c3aed', // Premium purple
+      neon: '#00ff88', // Electric green
+      orange: '#ff6b35', // Electric orange
+      pink: '#ff0080', // Hot pink
+      cyan: '#00d4ff', // Electric cyan
+      yellow: '#ffed4e', // Electric yellow
+      red: '#ff3366', // Electric red
     },
     
-    // Status Colors
+    // Dark Theme
+    dark: {
+      50: '#18181b',
+      100: '#27272a',
+      200: '#3f3f46',
+      300: '#52525b',
+      400: '#71717a',
+      500: '#a1a1aa',
+      600: '#d4d4d8',
+      700: '#e4e4e7',
+      800: '#f4f4f5',
+      900: '#fafafa',
+    },
+    
+    // Status Colors - Vibrant
     status: {
-      success: '#059669',
-      warning: '#d97706',
-      error: '#dc2626',
-      info: '#2563eb',
+      success: '#00ff88',
+      warning: '#ffed4e',
+      error: '#ff3366',
+      info: '#00d4ff',
     },
     
-    // Background Gradients
+    // Gradients
     gradients: {
-      primary: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-      dark: 'linear-gradient(135deg, #171717 0%, #262626 100%)',
-      elegant: 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
+      primary: 'linear-gradient(135deg, #0ea5e9 0%, #d946ef 100%)',
+      secondary: 'linear-gradient(135deg, #d946ef 0%, #ff0080 100%)',
+      success: 'linear-gradient(135deg, #00ff88 0%, #00d4ff 100%)',
+      dark: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
+      neon: 'linear-gradient(135deg, #00ff88 0%, #00d4ff 50%, #d946ef 100%)',
+      fire: 'linear-gradient(135deg, #ff6b35 0%, #ff0080 100%)',
     }
   },
   
   typography: {
     fonts: {
-      display: '"Playfair Display", serif', // Elegant serif for headings
-      body: '"Inter", sans-serif', // Clean sans-serif for body
+      display: '"Space Grotesk", sans-serif', // Modern, tech-forward
+      body: '"Inter", sans-serif',
       mono: '"JetBrains Mono", monospace',
     },
     
@@ -73,54 +92,24 @@ export const theme = {
       '5xl': '3rem',
       '6xl': '3.75rem',
       '7xl': '4.5rem',
-    },
-    
-    weights: {
-      light: '300',
-      normal: '400',
-      medium: '500',
-      semibold: '600',
-      bold: '700',
-      extrabold: '800',
+      '8xl': '6rem',
     },
   },
   
-  spacing: {
-    xs: '0.5rem',
-    sm: '0.75rem',
-    md: '1rem',
-    lg: '1.5rem',
-    xl: '2rem',
-    '2xl': '3rem',
-    '3xl': '4rem',
-    '4xl': '6rem',
+  animations: {
+    glow: 'glow 2s ease-in-out infinite alternate',
+    pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    bounce: 'bounce 1s infinite',
+    float: 'float 3s ease-in-out infinite',
+    shimmer: 'shimmer 2s linear infinite',
   },
   
-  borderRadius: {
-    none: '0',
-    sm: '0.125rem',
-    md: '0.375rem',
-    lg: '0.5rem',
-    xl: '0.75rem',
-    '2xl': '1rem',
-    full: '9999px',
-  },
-  
-  shadows: {
-    sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-    md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-    lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-    xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-    elegant: '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-  },
-  
-  breakpoints: {
-    sm: '640px',
-    md: '768px',
-    lg: '1024px',
-    xl: '1280px',
-    '2xl': '1536px',
-  },
+  effects: {
+    glassmorphism: 'backdrop-blur-xl bg-white/10 border border-white/20',
+    neonGlow: 'shadow-[0_0_20px_rgba(0,255,136,0.5)]',
+    electricGlow: 'shadow-[0_0_30px_rgba(14,165,233,0.6)]',
+    pinkGlow: 'shadow-[0_0_25px_rgba(217,70,239,0.5)]',
+  }
 } as const;
 
 export type Theme = typeof theme;

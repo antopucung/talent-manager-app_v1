@@ -27,8 +27,8 @@ const textWeights = {
 };
 
 const textColors = {
-  default: 'text-neutral-900',
-  muted: 'text-neutral-600',
+  default: 'text-dark-800',
+  muted: 'text-dark-600',
   accent: 'text-primary-600',
   white: 'text-white',
 };
