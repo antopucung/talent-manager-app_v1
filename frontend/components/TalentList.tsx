@@ -86,7 +86,7 @@ export function TalentList() {
                 <SelectValue placeholder="Experience Level" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Levels</SelectItem>
+                <SelectItem value="all">All Levels</SelectItem>
                 <SelectItem value="beginner">Beginner</SelectItem>
                 <SelectItem value="intermediate">Intermediate</SelectItem>
                 <SelectItem value="advanced">Advanced</SelectItem>
@@ -99,19 +99,19 @@ export function TalentList() {
                 <SelectValue placeholder="Availability" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="available">Available</SelectItem>
                 <SelectItem value="busy">Busy</SelectItem>
                 <SelectItem value="unavailable">Unavailable</SelectItem>
               </SelectContent>
             </Select>
             
-            <Select value={filters.verified?.toString() || ''} onValueChange={(value) => handleFilterChange('verified', value === 'true' ? true : value === 'false' ? false : undefined)}>
+            <Select value={filters.verified?.toString() || 'all'} onValueChange={(value) => handleFilterChange('verified', value === 'true' ? true : value === 'false' ? false : undefined)}>
               <SelectTrigger>
                 <SelectValue placeholder="Verification" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="true">Verified Only</SelectItem>
                 <SelectItem value="false">Unverified</SelectItem>
               </SelectContent>
