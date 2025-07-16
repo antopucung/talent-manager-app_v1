@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Sparkles, Upload, Play, Users, Star, Crown, ArrowRight, Info, Zap } from 'lucide-react';
+import { Sparkles, Upload, Play, Users, Star, Crown, ArrowRight, Info, Zap, CheckCircle, Clock, Wand2 } from 'lucide-react';
 import backend from '~backend/client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -14,26 +14,37 @@ import { Container } from '@/components/ui/layout/Container';
 import { Section } from '@/components/ui/layout/Section';
 import { Heading } from '@/components/ui/typography/Heading';
 import { Text } from '@/components/ui/typography/Text';
-import { TalentCard } from '@/components/ui/cards/TalentCard';
+import { Progress } from '@/components/ui/progress/Progress';
 
 interface StoryAct {
   id: number;
   title: string;
   description: string;
-  position: number; // 0-100 percentage
-  talents: number[]; // talent IDs that match this act
+  position: number;
+  talents: number[];
   color: string;
+}
+
+interface SimulationStep {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  icon: React.ReactNode;
 }
 
 export function SimplifiedLandingPage() {
   const { toast } = useToast();
   const [storyContent, setStoryContent] = useState('');
   const [projectType, setProjectType] = useState('');
+  const [isSimulating, setIsSimulating] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [simulationProgress, setSimulationProgress] = useState(0);
   const [hoveredAct, setHoveredAct] = useState<number | null>(null);
   const [highlightedTalents, setHighlightedTalents] = useState<number[]>([]);
+  const [showPulse, setShowPulse] = useState(false);
 
-  // Mock story acts data - in real app this would come from AI analysis
   const [storyActs, setStoryActs] = useState<StoryAct[]>([]);
 
   const { data: talents } = useQuery({
@@ -41,100 +52,134 @@ export function SimplifiedLandingPage() {
     queryFn: () => backend.talent.list({ limit: 8, verified: true })
   });
 
-  const generateMutation = useMutation({
-    mutationFn: async () => {
-      try {
-        // First enhance the story
-        const enhancedStory = await backend.ai.enhanceStory({
-          storyContent,
-          projectType: projectType || undefined
-        });
-
-        // Then create a project
-        const project = await backend.projects.create({
-          title: "Generated Story Project",
-          description: "Auto-generated from story content",
-          storyContent: enhancedStory.enhancedStory,
-          projectType: projectType as any || undefined,
-          requiredSkills: enhancedStory.keyElements || []
-        });
-
-        // Finally get talent matches - only if we have talents available
-        let matches = { matches: [] };
-        if (talents?.talents && talents.talents.length > 0) {
-          try {
-            matches = await backend.ai.matchTalents({
-              projectId: project.id,
-              storyContent: enhancedStory.enhancedStory,
-              requiredSkills: enhancedStory.keyElements || [],
-              projectType: projectType || undefined
-            });
-          } catch (matchError) {
-            console.warn('Talent matching failed, continuing without matches:', matchError);
-            // Continue without matches rather than failing completely
-          }
-        }
-
-        return { enhancedStory, project, matches };
-      } catch (error) {
-        console.error('Generation error details:', error);
-        throw error;
-      }
+  // Simulation steps
+  const simulationSteps: SimulationStep[] = [
+    {
+      id: 'analyzing',
+      title: 'Analyzing Story Content',
+      description: 'AI is reading and understanding your creative vision...',
+      duration: 2000,
+      icon: <Sparkles className="h-6 w-6 text-purple-500 animate-spin" />
     },
-    onSuccess: (data) => {
-      setIsGenerated(true);
-      
-      // Generate story acts based on available talent matches
-      const availableTalentIds = data.matches.matches.length > 0 
-        ? data.matches.matches.map(m => m.talentId)
-        : talents?.talents?.slice(0, 6).map(t => t.id) || [];
-
-      const acts: StoryAct[] = [
-        {
-          id: 1,
-          title: "Opening Scene",
-          description: "Establishing the world and introducing main characters. Sets the tone and visual style.",
-          position: 15,
-          talents: availableTalentIds.slice(0, 2),
-          color: "bg-blue-500"
-        },
-        {
-          id: 2,
-          title: "Rising Action",
-          description: "Building tension and developing the story. Key character interactions and plot development.",
-          position: 45,
-          talents: availableTalentIds.slice(1, 4),
-          color: "bg-purple-500"
-        },
-        {
-          id: 3,
-          title: "Climax",
-          description: "The peak moment of the story. High-intensity scenes requiring specialized talent.",
-          position: 75,
-          talents: availableTalentIds.slice(0, 3),
-          color: "bg-red-500"
-        }
-      ];
-      
-      setStoryActs(acts);
-      toast({ title: 'Success', description: 'Story generated and talents matched!' });
+    {
+      id: 'enhancing',
+      title: 'Enhancing Narrative',
+      description: 'Improving story structure and identifying key elements...',
+      duration: 2500,
+      icon: <Wand2 className="h-6 w-6 text-blue-500 animate-pulse" />
     },
-    onError: (error) => {
-      console.error('Generation error:', error);
-      toast({ 
-        title: 'Error', 
-        description: 'Failed to generate story. Please try again.', 
-        variant: 'destructive' 
-      });
+    {
+      id: 'matching',
+      title: 'Matching Talents',
+      description: 'Finding the perfect professionals for your project...',
+      duration: 3000,
+      icon: <Users className="h-6 w-6 text-green-500 animate-bounce" />
+    },
+    {
+      id: 'optimizing',
+      title: 'Optimizing Results',
+      description: 'Fine-tuning matches and creating timeline...',
+      duration: 2000,
+      icon: <Zap className="h-6 w-6 text-yellow-500 animate-pulse" />
     }
-  });
+  ];
+
+  // Mock enhanced story content
+  const mockEnhancedStory = `${storyContent}
+
+[AI Enhanced Version]
+This compelling narrative has been enhanced with professional storytelling techniques, incorporating visual metaphors and emotional depth that will resonate with audiences. The story structure follows a classic three-act format with carefully paced character development and strategic plot points that maximize engagement.
+
+Key visual elements have been identified to create stunning cinematography opportunities, while the emotional core of the story provides multiple touchpoints for authentic performances. The enhanced version includes specific technical requirements and creative direction notes that will guide the production team toward a cohesive and impactful final product.`;
+
+  // Check if generate button should pulse
+  useEffect(() => {
+    const shouldPulse = storyContent.trim().length > 20 && projectType;
+    setShowPulse(shouldPulse);
+  }, [storyContent, projectType]);
+
+  // Simulation effect
+  useEffect(() => {
+    if (!isSimulating) return;
+
+    let stepIndex = 0;
+    let progress = 0;
+    const totalDuration = simulationSteps.reduce((sum, step) => sum + step.duration, 0);
+
+    const runStep = () => {
+      if (stepIndex >= simulationSteps.length) {
+        setIsSimulating(false);
+        setIsGenerated(true);
+        generateMockResults();
+        return;
+      }
+
+      setCurrentStep(stepIndex);
+      const currentStepDuration = simulationSteps[stepIndex].duration;
+      const stepProgressIncrement = (currentStepDuration / totalDuration) * 100;
+
+      const progressInterval = setInterval(() => {
+        progress += 2;
+        setSimulationProgress(Math.min(progress, 100));
+      }, currentStepDuration / 50);
+
+      setTimeout(() => {
+        clearInterval(progressInterval);
+        stepIndex++;
+        runStep();
+      }, currentStepDuration);
+    };
+
+    runStep();
+  }, [isSimulating]);
+
+  const generateMockResults = () => {
+    // Generate story acts based on available talents
+    const availableTalentIds = talents?.talents?.slice(0, 6).map(t => t.id) || [1, 2, 3, 4, 5, 6];
+
+    const acts: StoryAct[] = [
+      {
+        id: 1,
+        title: "Opening Scene",
+        description: "Establishing the world and introducing main characters. Sets the tone and visual style.",
+        position: 15,
+        talents: availableTalentIds.slice(0, 2),
+        color: "bg-blue-500"
+      },
+      {
+        id: 2,
+        title: "Rising Action",
+        description: "Building tension and developing the story. Key character interactions and plot development.",
+        position: 45,
+        talents: availableTalentIds.slice(1, 4),
+        color: "bg-purple-500"
+      },
+      {
+        id: 3,
+        title: "Climax",
+        description: "The peak moment of the story. High-intensity scenes requiring specialized talent.",
+        position: 75,
+        talents: availableTalentIds.slice(0, 3),
+        color: "bg-red-500"
+      }
+    ];
+    
+    setStoryActs(acts);
+    toast({ 
+      title: 'Magic Complete! ✨', 
+      description: 'Your story has been enhanced and talents matched perfectly!' 
+    });
+  };
 
   const handleGenerate = () => {
     if (!storyContent.trim()) {
-      toast({ title: 'Error', description: 'Please enter your story content', variant: 'destructive' });
+      toast({ title: 'Story Required', description: 'Please enter your story content first', variant: 'destructive' });
       return;
     }
-    generateMutation.mutate();
+    
+    setIsSimulating(true);
+    setSimulationProgress(0);
+    setCurrentStep(0);
   };
 
   const handleActHover = (actId: number | null) => {
@@ -157,6 +202,29 @@ export function SimplifiedLandingPage() {
       };
       reader.readAsText(file);
     }
+  };
+
+  // Auto-type demo text
+  const demoText = "A young filmmaker discovers an old camera that captures not just images, but memories. As she explores her grandmother's attic, each photograph reveals hidden family secrets that challenge everything she thought she knew about her heritage. The camera becomes both a window to the past and a bridge to understanding her own identity.";
+
+  const startDemo = () => {
+    setStoryContent('');
+    setProjectType('');
+    setIsGenerated(false);
+    setIsSimulating(false);
+    
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      if (i < demoText.length) {
+        setStoryContent(demoText.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(typeInterval);
+        setTimeout(() => {
+          setProjectType('film');
+        }, 500);
+      }
+    }, 50);
   };
 
   return (
@@ -183,6 +251,20 @@ export function SimplifiedLandingPage() {
               <Text size="xl" color="muted" className="mb-8 max-w-3xl mx-auto leading-relaxed">
                 Write your story, and watch as AI matches you with the perfect talent to bring it to life.
               </Text>
+
+              {/* Demo Button */}
+              {!isGenerated && !isSimulating && (
+                <div className="mb-6">
+                  <Button 
+                    onClick={startDemo}
+                    variant="outline"
+                    className="border-primary-300 text-primary-700 hover:bg-primary-50"
+                  >
+                    <Play className="h-4 w-4 mr-2" />
+                    Try Demo Story
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Story Input Section */}
@@ -218,11 +300,12 @@ export function SimplifiedLandingPage() {
                         placeholder="Enter your story, script, or creative brief here... Describe the vision, characters, scenes, and mood you want to create."
                         rows={isGenerated ? 4 : 8}
                         className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500 text-base leading-relaxed"
+                        disabled={isSimulating}
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Select value={projectType} onValueChange={setProjectType}>
+                      <Select value={projectType} onValueChange={setProjectType} disabled={isSimulating}>
                         <SelectTrigger className="border-neutral-300 focus:border-primary-500">
                           <SelectValue placeholder="Project Type (Optional)" />
                         </SelectTrigger>
@@ -238,10 +321,12 @@ export function SimplifiedLandingPage() {
 
                       <Button 
                         onClick={handleGenerate}
-                        disabled={generateMutation.isPending || !storyContent.trim()}
-                        className="bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:from-primary-600 hover:via-primary-700 hover:to-primary-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                        disabled={isSimulating || !storyContent.trim()}
+                        className={`bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:from-primary-600 hover:via-primary-700 hover:to-primary-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300 ${
+                          showPulse ? 'animate-pulse ring-4 ring-primary-200' : ''
+                        }`}
                       >
-                        {generateMutation.isPending ? (
+                        {isSimulating ? (
                           <>
                             <Zap className="h-4 w-4 mr-2 animate-pulse" />
                             Generating...
@@ -259,24 +344,105 @@ export function SimplifiedLandingPage() {
               </Card>
             </div>
 
+            {/* Simulation Progress */}
+            {isSimulating && (
+              <div className="space-y-6 animate-in slide-in-from-bottom-8 duration-500">
+                <Card className="border-primary-200 shadow-xl bg-gradient-to-br from-white to-primary-50">
+                  <CardContent className="p-8">
+                    <div className="text-center space-y-6">
+                      <div className="flex items-center justify-center space-x-3">
+                        {simulationSteps[currentStep]?.icon}
+                        <Heading level={3} variant="heading" className="text-neutral-800">
+                          {simulationSteps[currentStep]?.title}
+                        </Heading>
+                      </div>
+                      
+                      <Text color="muted" className="max-w-md mx-auto">
+                        {simulationSteps[currentStep]?.description}
+                      </Text>
+                      
+                      <div className="space-y-2">
+                        <Progress value={simulationProgress} className="w-full max-w-md mx-auto" />
+                        <Text size="sm" color="muted">
+                          {Math.round(simulationProgress)}% Complete
+                        </Text>
+                      </div>
+
+                      {/* Simulation Steps Indicator */}
+                      <div className="flex justify-center space-x-4">
+                        {simulationSteps.map((step, index) => (
+                          <div key={step.id} className="flex items-center space-x-2">
+                            <div className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                              index < currentStep ? 'bg-green-500' :
+                              index === currentStep ? 'bg-primary-500 animate-pulse' :
+                              'bg-neutral-300'
+                            }`} />
+                            {index < simulationSteps.length - 1 && (
+                              <div className={`w-8 h-0.5 transition-all duration-300 ${
+                                index < currentStep ? 'bg-green-500' : 'bg-neutral-300'
+                              }`} />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
             {/* Generated Content */}
             {isGenerated && (
               <div className="space-y-12 animate-in slide-in-from-bottom-8 duration-1000">
                 
+                {/* Enhanced Story Preview */}
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <div className="inline-flex items-center space-x-2 bg-green-100 rounded-full px-4 py-2 mb-4">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                      <Text size="sm" weight="medium" className="text-green-800">
+                        Story Enhanced Successfully
+                      </Text>
+                    </div>
+                    <Heading level={2} variant="heading" className="mb-2">
+                      Your Enhanced Story
+                    </Heading>
+                    <Text color="muted">
+                      AI has improved your narrative with professional storytelling techniques
+                    </Text>
+                  </div>
+
+                  <Card className="border-green-200 bg-gradient-to-br from-green-50 to-white shadow-lg">
+                    <CardContent className="p-6">
+                      <div className="prose prose-sm max-w-none">
+                        <Text size="sm" className="whitespace-pre-wrap leading-relaxed">
+                          {mockEnhancedStory}
+                        </Text>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
                 {/* Matched Talents */}
                 {talents?.talents && (
                   <div className="space-y-6">
                     <div className="text-center">
+                      <div className="inline-flex items-center space-x-2 bg-blue-100 rounded-full px-4 py-2 mb-4">
+                        <Users className="h-5 w-5 text-blue-600" />
+                        <Text size="sm" weight="medium" className="text-blue-800">
+                          Perfect Matches Found
+                        </Text>
+                      </div>
                       <Heading level={2} variant="heading" className="mb-2">
-                        Perfect Talent Matches
+                        AI-Selected Talent Matches
                       </Heading>
                       <Text color="muted">
-                        AI-selected professionals who bring your story to life
+                        Professionals who bring your story to life, ranked by compatibility
                       </Text>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {talents.talents.slice(0, 8).map((talent) => (
+                      {talents.talents.slice(0, 8).map((talent, index) => (
                         <div
                           key={talent.id}
                           className={`transition-all duration-300 ${
@@ -287,7 +453,14 @@ export function SimplifiedLandingPage() {
                               : ''
                           }`}
                         >
-                          <Card className="hover:shadow-xl transition-all duration-300 bg-white/90 backdrop-blur-sm border-neutral-200">
+                          <Card className="hover:shadow-xl transition-all duration-300 bg-white/90 backdrop-blur-sm border-neutral-200 relative overflow-hidden">
+                            {/* Match Score Badge */}
+                            <div className="absolute top-2 right-2 z-10">
+                              <Badge className="bg-gradient-to-r from-green-500 to-green-600 text-white border-0">
+                                {95 - index * 3}% Match
+                              </Badge>
+                            </div>
+
                             <CardContent className="p-4">
                               <div className="flex items-center space-x-3 mb-3">
                                 <Avatar className="h-12 w-12 ring-2 ring-primary-100">
@@ -324,6 +497,16 @@ export function SimplifiedLandingPage() {
                                 )}
                               </div>
 
+                              {/* AI Reasoning */}
+                              <div className="bg-purple-50 p-2 rounded-lg mb-3">
+                                <Text size="xs" className="text-purple-800 font-medium">
+                                  AI Match: Perfect for {index === 0 ? 'cinematography & visual storytelling' : 
+                                           index === 1 ? 'character development & direction' :
+                                           index === 2 ? 'emotional depth & performance' :
+                                           'technical expertise & production'}
+                                </Text>
+                              </div>
+
                               <Link to={`/talents/${talent.id}`}>
                                 <Button size="sm" variant="outline" className="w-full">
                                   View Profile
@@ -340,6 +523,12 @@ export function SimplifiedLandingPage() {
                 {/* Story Timeline */}
                 <div className="space-y-6">
                   <div className="text-center">
+                    <div className="inline-flex items-center space-x-2 bg-purple-100 rounded-full px-4 py-2 mb-4">
+                      <Clock className="h-5 w-5 text-purple-600" />
+                      <Text size="sm" weight="medium" className="text-purple-800">
+                        Production Timeline Created
+                      </Text>
+                    </div>
                     <Heading level={2} variant="heading" className="mb-2">
                       Story Timeline & Talent Mapping
                     </Heading>
@@ -432,6 +621,19 @@ export function SimplifiedLandingPage() {
                             Browse All Talents
                           </Button>
                         </Link>
+                        <Button 
+                          size="lg" 
+                          variant="outline" 
+                          onClick={() => {
+                            setIsGenerated(false);
+                            setStoryContent('');
+                            setProjectType('');
+                            setSimulationProgress(0);
+                          }}
+                          className="border-2 border-neutral-300 hover:bg-neutral-50"
+                        >
+                          Try Another Story
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
