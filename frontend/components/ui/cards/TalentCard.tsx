@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, MapPin, DollarSign, ArrowRight, Star, Zap } from 'lucide-react';
+import { CheckCircle, MapPin, DollarSign, ArrowRight, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,34 +17,29 @@ interface TalentCardProps {
 }
 
 const cardVariants = {
-  default: 'hover:shadow-card-hover transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 bg-slate-800/80 backdrop-blur-xl border-0 border border-slate-700',
-  featured: 'border-0 shadow-card-hover hover:shadow-glow-blue transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 bg-gradient-to-br from-slate-800/90 to-slate-700/90 backdrop-blur-xl relative overflow-hidden border border-slate-600',
-  compact: 'hover:shadow-card transition-all duration-300 bg-slate-800/60 backdrop-blur-sm border border-slate-700',
+  default: 'hover:shadow-apple-lg transition-all duration-300 bg-white border-neutral-200',
+  featured: 'border-2 border-primary-200 shadow-apple-lg hover:shadow-apple-xl transition-all duration-300 bg-gradient-to-br from-white to-primary-50',
+  compact: 'hover:shadow-apple transition-all duration-300 bg-white border-neutral-200',
 };
 
 export function TalentCard({ talent, variant = 'default', className }: TalentCardProps) {
   return (
     <Card className={cn(cardVariants[variant], className, 'group')}>
-      {/* Animated background for featured cards */}
-      {variant === 'featured' && (
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      )}
-      
-      <CardHeader className="pb-4 relative z-10">
+      <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             <Avatar className={cn(
               'transition-all duration-300',
               variant === 'featured' 
-                ? 'h-16 w-16 ring-4 ring-blue-500/30 group-hover:ring-blue-400/50 group-hover:shadow-glow-blue' 
-                : 'h-12 w-12 group-hover:scale-110'
+                ? 'h-16 w-16 ring-2 ring-primary-200 group-hover:ring-primary-300' 
+                : 'h-12 w-12 group-hover:scale-105'
             )}>
               <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
               <AvatarFallback className={cn(
-                'text-white font-bold transition-all duration-300',
+                'text-white font-semibold transition-all duration-300',
                 variant === 'featured' 
-                  ? 'text-lg bg-gradient-to-r from-blue-600 to-purple-600 group-hover:from-blue-500 group-hover:to-purple-500' 
-                  : 'bg-gradient-to-r from-purple-600 to-pink-600'
+                  ? 'text-lg bg-primary-600' 
+                  : 'bg-neutral-600'
               )}>
                 {talent.name.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
@@ -56,23 +51,21 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
                   level={variant === 'featured' ? 3 : 4} 
                   variant="heading"
                   className={cn(
-                    'transition-all duration-300',
-                    variant === 'featured' 
-                      ? 'bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-purple-300' 
-                      : 'text-slate-200 group-hover:text-blue-400'
+                    'transition-all duration-300 text-neutral-900',
+                    variant === 'featured' && 'group-hover:text-primary-700'
                   )}
                 >
                   {talent.name}
                 </Heading>
                 {talent.isVerified && (
-                  <CheckCircle className="h-5 w-5 text-blue-400 animate-pulse" />
+                  <CheckCircle className="h-5 w-5 text-primary-600" />
                 )}
               </div>
               
               {talent.location && (
-                <div className="flex items-center text-sm text-slate-400 mt-1">
+                <div className="flex items-center text-sm text-neutral-500 mt-1">
                   <MapPin className="h-3 w-3 mr-1" />
-                  <Text size="sm" className="text-slate-400" as="span">{talent.location}</Text>
+                  <Text size="sm" className="text-neutral-500" as="span">{talent.location}</Text>
                 </div>
               )}
             </div>
@@ -83,8 +76,8 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
             className={cn(
               'transition-all duration-300',
               talent.subscriptionTier === 'premium' 
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-glow-purple animate-pulse' 
-                : 'bg-slate-700 text-slate-300 border border-slate-600'
+                ? 'bg-film-gold text-white border-0' 
+                : 'bg-neutral-100 text-neutral-600'
             )}
           >
             {talent.subscriptionTier === 'premium' && <Star className="h-3 w-3 mr-1" />}
@@ -93,13 +86,13 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-4 relative z-10">
+      <CardContent className="space-y-4">
         {talent.bio && (
           <Text 
             size="sm" 
             className={cn(
               variant === 'compact' ? 'line-clamp-2' : 'line-clamp-3',
-              'leading-relaxed text-slate-300'
+              'leading-relaxed text-neutral-600'
             )}
           >
             {talent.bio}
@@ -111,29 +104,29 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
             <Badge 
               key={skill} 
               variant="outline" 
-              className="text-xs border-blue-500/30 bg-blue-500/10 text-blue-300 hover:bg-blue-500/20 transition-colors duration-200"
+              className="text-xs border-neutral-200 bg-neutral-50 text-neutral-600 hover:bg-neutral-100 transition-colors duration-200"
             >
               {skill}
             </Badge>
           ))}
           {talent.skills.length > (variant === 'featured' ? 4 : 3) && (
-            <Badge variant="outline" className="text-xs border-purple-500/30 bg-purple-500/10 text-purple-300">
+            <Badge variant="outline" className="text-xs border-neutral-200 bg-neutral-50 text-neutral-600">
               +{talent.skills.length - (variant === 'featured' ? 4 : 3)} more
             </Badge>
           )}
         </div>
         
         <div className="flex items-center justify-between pt-2">
-          <div className="flex items-center space-x-4 text-sm text-slate-400">
+          <div className="flex items-center space-x-4 text-sm text-neutral-500">
             {talent.experienceLevel && (
-              <Text size="sm" className="text-slate-400 capitalize font-semibold" as="span">
+              <Text size="sm" className="text-neutral-500 capitalize font-medium" as="span">
                 {talent.experienceLevel}
               </Text>
             )}
             {talent.hourlyRate && (
               <div className="flex items-center">
                 <DollarSign className="h-3 w-3 mr-1" />
-                <Text size="sm" weight="bold" className="text-green-400" as="span">
+                <Text size="sm" weight="semibold" className="text-neutral-700" as="span">
                   ${talent.hourlyRate}/hr
                 </Text>
               </div>
@@ -145,11 +138,10 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
             className={cn(
               'transition-all duration-300',
               talent.availability === 'available' 
-                ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white shadow-glow-green animate-pulse' 
-                : 'bg-slate-700 text-slate-400'
+                ? 'bg-status-success text-white' 
+                : 'bg-neutral-200 text-neutral-600'
             )}
           >
-            {talent.availability === 'available' && <Zap className="h-3 w-3 mr-1" />}
             {talent.availability}
           </Badge>
         </div>
@@ -157,10 +149,10 @@ export function TalentCard({ talent, variant = 'default', className }: TalentCar
         <Link to={`/talents/${talent.id}`}>
           <Button 
             className={cn(
-              'w-full group transition-all duration-300 font-semibold',
+              'w-full group transition-all duration-300 font-medium',
               variant === 'featured' 
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white border-0 shadow-xl hover:shadow-glow-blue' 
-                : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white border-0 hover:shadow-xl'
+                ? 'bg-primary-600 hover:bg-primary-700 text-white shadow-apple' 
+                : 'bg-neutral-900 hover:bg-neutral-800 text-white'
             )}
             variant="default"
           >

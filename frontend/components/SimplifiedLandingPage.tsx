@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Sparkles, Upload, Play, Users, Star, Crown, ArrowRight, Info, Zap, CheckCircle, Clock, Wand2, Rocket, Brain, Target, Lightbulb } from 'lucide-react';
+import { Play, Users, Star, ArrowRight, Sparkles, Brain, Target, Wand2, CheckCircle, Film, Award } from 'lucide-react';
 import backend from '~backend/client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,32 +32,6 @@ interface SimulationStep {
   description: string;
   duration: number;
   icon: React.ReactNode;
-  color: string;
-}
-
-interface ParticleProps {
-  x: number;
-  y: number;
-  color: string;
-  size: number;
-  speed: number;
-}
-
-function FloatingParticle({ x, y, color, size, speed }: ParticleProps) {
-  return (
-    <div
-      className={`absolute rounded-full opacity-30 animate-float`}
-      style={{
-        left: `${x}%`,
-        top: `${y}%`,
-        width: `${size}px`,
-        height: `${size}px`,
-        backgroundColor: color,
-        animationDelay: `${Math.random() * 2}s`,
-        animationDuration: `${3 + speed}s`,
-      }}
-    />
-  );
 }
 
 export function SimplifiedLandingPage() {
@@ -70,11 +44,7 @@ export function SimplifiedLandingPage() {
   const [simulationProgress, setSimulationProgress] = useState(0);
   const [hoveredAct, setHoveredAct] = useState<number | null>(null);
   const [highlightedTalents, setHighlightedTalents] = useState<number[]>([]);
-  const [showPulse, setShowPulse] = useState(false);
   const [isAutoDemo, setIsAutoDemo] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const [particles, setParticles] = useState<ParticleProps[]>([]);
-
   const [storyActs, setStoryActs] = useState<StoryAct[]>([]);
 
   const { data: talents } = useQuery({
@@ -82,67 +52,46 @@ export function SimplifiedLandingPage() {
     queryFn: () => backend.talent.list({ limit: 8, verified: true })
   });
 
-  // Generate floating particles
-  useEffect(() => {
-    const newParticles: ParticleProps[] = [];
-    for (let i = 0; i < 15; i++) {
-      newParticles.push({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        color: ['#3b82f6', '#8b5cf6', '#10b981', '#ec4899', '#06b6d4'][Math.floor(Math.random() * 5)],
-        size: Math.random() * 6 + 3,
-        speed: Math.random() * 2,
-      });
-    }
-    setParticles(newParticles);
-  }, []);
-
   // Enhanced simulation steps
   const simulationSteps: SimulationStep[] = [
     {
       id: 'analyzing',
-      title: 'AI Brain Activation',
-      description: 'Neural networks are analyzing your creative vision with quantum precision...',
-      duration: 2500,
-      icon: <Brain className="h-8 w-8 animate-pulse" />,
-      color: 'text-blue-400'
+      title: 'Analyzing Story Structure',
+      description: 'AI is examining narrative elements and character development...',
+      duration: 2000,
+      icon: <Brain className="h-6 w-6" />
     },
     {
       id: 'enhancing',
-      title: 'Story DNA Reconstruction',
-      description: 'Rebuilding narrative structure with Hollywood-grade storytelling algorithms...',
-      duration: 3000,
-      icon: <Wand2 className="h-8 w-8 animate-spin" />,
-      color: 'text-purple-400'
+      title: 'Enhancing Creative Vision',
+      description: 'Optimizing storytelling techniques and visual narrative...',
+      duration: 2500,
+      icon: <Wand2 className="h-6 w-6" />
     },
     {
       id: 'matching',
-      title: 'Talent Constellation Mapping',
-      description: 'Scanning the universe for perfect creative matches across dimensions...',
-      duration: 3500,
-      icon: <Target className="h-8 w-8 animate-bounce" />,
-      color: 'text-green-400'
+      title: 'Matching Perfect Talent',
+      description: 'Finding the ideal professionals for your project...',
+      duration: 3000,
+      icon: <Target className="h-6 w-6" />
     },
     {
       id: 'optimizing',
-      title: 'Reality Synthesis',
-      description: 'Weaving magic into reality with precision-engineered creative alchemy...',
-      duration: 2000,
-      icon: <Rocket className="h-8 w-8 animate-pulse" />,
-      color: 'text-pink-400'
+      title: 'Finalizing Recommendations',
+      description: 'Preparing your personalized talent constellation...',
+      duration: 1500,
+      icon: <CheckCircle className="h-6 w-6" />
     }
   ];
 
   // Demo story content
-  const demoText = "In a neon-lit cyberpunk metropolis, a young hacker discovers an ancient AI that holds the key to humanity's digital soul. As corporate overlords hunt them through virtual reality labyrinths, they must choose between saving the digital world or preserving human consciousness. The fate of both realities hangs in the balance as code becomes magic and pixels transform into destiny.";
+  const demoText = "A visionary tech entrepreneur discovers an ancient artifact that bridges the digital and physical worlds. As corporate forces seek to control this power, she must assemble a diverse team of creators, innovators, and storytellers to protect humanity's creative future. The story explores themes of innovation, collaboration, and the transformative power of human creativity in an increasingly digital age.";
 
   // Auto-execution logic
   useEffect(() => {
-    const shouldPulse = storyContent.trim().length > 20 && projectType;
-    setShowPulse(shouldPulse);
+    const shouldTrigger = storyContent.trim().length > 20 && projectType;
     
-    // Auto-trigger generation when demo is complete
-    if (isAutoDemo && shouldPulse && !isSimulating && !isGenerated) {
+    if (isAutoDemo && shouldTrigger && !isSimulating && !isGenerated) {
       setTimeout(() => {
         handleGenerate();
       }, 1000);
@@ -190,53 +139,50 @@ export function SimplifiedLandingPage() {
     const acts: StoryAct[] = [
       {
         id: 1,
-        title: "Digital Genesis",
-        description: "Opening sequence in the neon metropolis. Establishing the cyberpunk world and introducing our hacker protagonist.",
-        position: 15,
+        title: "Discovery",
+        description: "Introduction of the protagonist and the mysterious artifact discovery.",
+        position: 20,
         talents: availableTalentIds.slice(0, 2),
         color: "from-blue-500 to-cyan-500",
-        icon: <Lightbulb className="h-5 w-5" />
+        icon: <Film className="h-4 w-4" />
       },
       {
         id: 2,
-        title: "Code Awakening",
-        description: "The discovery of the ancient AI. High-intensity virtual reality sequences requiring specialized technical talent.",
-        position: 45,
+        title: "Revelation",
+        description: "The true power of the artifact is revealed, raising the stakes.",
+        position: 50,
         talents: availableTalentIds.slice(1, 4),
         color: "from-purple-500 to-pink-500",
-        icon: <Brain className="h-5 w-5" />
+        icon: <Sparkles className="h-4 w-4" />
       },
       {
         id: 3,
-        title: "Reality Convergence",
-        description: "The climactic battle between digital and physical worlds. Epic visual effects and emotional performances.",
-        position: 75,
+        title: "Resolution",
+        description: "The final confrontation and the triumph of creative collaboration.",
+        position: 80,
         talents: availableTalentIds.slice(0, 3),
         color: "from-green-500 to-blue-500",
-        icon: <Rocket className="h-5 w-5" />
+        icon: <Award className="h-4 w-4" />
       }
     ];
     
     setStoryActs(acts);
     
     toast({ 
-      title: '🚀 MAGIC COMPLETE!', 
-      description: 'Your story has been transformed into a cinematic masterpiece!' 
+      title: 'Analysis Complete', 
+      description: 'Your story has been enhanced and talent matches found.' 
     });
   };
 
   const handleGenerate = () => {
     if (!storyContent.trim()) {
       toast({ 
-        title: '⚡ Story Required', 
+        title: 'Story Required', 
         description: 'Please enter your story content first', 
         variant: 'destructive' 
       });
       return;
     }
-    
-    setButtonClicked(true);
-    setTimeout(() => setButtonClicked(false), 300);
     
     setIsSimulating(true);
     setSimulationProgress(0);
@@ -250,7 +196,7 @@ export function SimplifiedLandingPage() {
     setIsSimulating(false);
     setIsAutoDemo(true);
     
-    // Enhanced typing animation
+    // Typing animation
     let i = 0;
     const typeInterval = setInterval(() => {
       if (i < demoText.length) {
@@ -262,7 +208,7 @@ export function SimplifiedLandingPage() {
           setProjectType('film');
         }, 500);
       }
-    }, 30);
+    }, 40);
   };
 
   const handleActHover = (actId: number | null) => {
@@ -277,149 +223,112 @@ export function SimplifiedLandingPage() {
 
   const mockEnhancedStory = `${storyContent}
 
-[🎬 AI ENHANCED CINEMATIC VERSION]
+ENHANCED NARRATIVE STRUCTURE:
 
-This electrifying narrative has been supercharged with cutting-edge storytelling techniques, incorporating visual metaphors that pulse with neon energy and emotional depth that resonates across digital dimensions. The story structure follows a revolutionary three-act format with precisely calibrated character development and strategic plot points that maximize audience engagement and create viral moments.
+This compelling narrative has been refined with professional storytelling techniques, incorporating three-act structure with precisely calibrated pacing and character development arcs. The story now features enhanced visual storytelling opportunities, strategic emotional beats, and clear production requirements.
 
-Key visual elements have been identified to create stunning cinematography opportunities that blend practical effects with digital artistry, while the emotional core provides multiple touchpoints for authentic performances that will trend across social platforms. The enhanced version includes specific technical requirements and creative direction notes that will guide the production team toward a cohesive, impactful, and award-winning final product.
+Key enhancements include:
+• Strengthened character motivations and conflict resolution
+• Optimized scene transitions for cinematic flow
+• Enhanced dialogue and visual metaphors
+• Strategic placement of emotional peaks for audience engagement
+• Technical specifications for production planning
 
-🎯 VIRAL POTENTIAL: MAXIMUM
-🎨 VISUAL IMPACT: REVOLUTIONARY  
-🎭 EMOTIONAL RESONANCE: TRANSCENDENT`;
+The enhanced version provides a solid foundation for a compelling visual narrative that will resonate with audiences and attract top-tier talent for production.`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-      {/* Floating Particles Background */}
-      <div className="fixed inset-0 pointer-events-none">
-        {particles.map((particle, index) => (
-          <FloatingParticle key={index} {...particle} />
-        ))}
-      </div>
-
-      {/* Main Content */}
-      <Section variant="default" padding="xl" className="relative z-10">
-        <Container size={isGenerated ? "xl" : "md"}>
-          <div className={`transition-all duration-1000 ${isGenerated ? 'space-y-12' : 'text-center space-y-8'}`}>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <Section variant="default" padding="xl">
+        <Container size="lg">
+          <div className={`transition-all duration-700 ${isGenerated ? 'space-y-16' : 'text-center space-y-12'}`}>
             
             {/* Header */}
             <div className="text-center relative">
-              <div className="inline-flex items-center space-x-3 bg-slate-800/80 backdrop-blur-xl rounded-full px-8 py-4 mb-8 shadow-xl border border-slate-700">
-                <Sparkles className="h-6 w-6 text-blue-400 animate-spin-slow" />
-                <Text size="base" weight="semibold" className="text-slate-200">
-                  AI-Powered Quantum Story & Talent Fusion
+              <div className="inline-flex items-center space-x-3 bg-neutral-100 rounded-full px-6 py-3 mb-8">
+                <Sparkles className="h-5 w-5 text-primary-600" />
+                <Text size="sm" weight="medium" className="text-neutral-700">
+                  AI-Powered Creative Platform
                 </Text>
-                <Zap className="h-6 w-6 text-purple-400 animate-pulse" />
               </div>
               
-              <Heading level={1} variant="display" className="mb-8 leading-tight font-display">
-                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                  Transform Your Story Into
-                </span>
+              <Heading level={1} variant="display" className="mb-6 leading-tight text-neutral-900">
+                Transform Your Vision Into
                 <br />
-                <span className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Cinematic Reality
-                </span>
+                <span className="text-primary-600">Cinematic Reality</span>
               </Heading>
               
-              <Text size="xl" className="mb-8 max-w-4xl mx-auto leading-relaxed text-slate-300">
-                Write your vision, watch AI magic unfold, and connect with the perfect talent constellation to bring your dreams to life.
+              <Text size="xl" className="mb-12 max-w-3xl mx-auto leading-relaxed text-neutral-600">
+                Professional storytelling meets intelligent talent matching. 
+                Create compelling narratives and connect with industry professionals.
               </Text>
 
               {/* Demo Button */}
               {!isGenerated && !isSimulating && (
-                <div className="mb-8">
+                <div className="mb-12">
                   <Button 
                     onClick={startDemo}
-                    className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 border-0 text-white font-semibold px-8 py-4 text-lg shadow-xl"
+                    size="lg"
+                    className="group bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-lg font-medium transition-all duration-300 hover:shadow-apple-lg"
                   >
-                    <Play className="h-5 w-5 mr-3 group-hover:animate-bounce" />
-                    <span>Experience AI Magic Demo</span>
-                    <Rocket className="h-5 w-5 ml-3 group-hover:animate-pulse" />
+                    <Play className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
+                    <span>Experience Demo</span>
                   </Button>
                 </div>
               )}
             </div>
 
             {/* Story Input Section */}
-            <div className={`transition-all duration-1000 ${isGenerated ? 'max-w-2xl' : 'max-w-5xl mx-auto'}`}>
-              <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+            <div className={`transition-all duration-700 ${isGenerated ? 'max-w-2xl' : 'max-w-4xl mx-auto'}`}>
+              <Card className="border border-neutral-200 shadow-apple bg-white">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
-                          <Text weight="semibold" className="text-slate-200 text-lg">
-                            Tell us your epic story
-                          </Text>
-                          <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <input
-                            type="file"
-                            accept=".txt,.doc,.docx"
-                            className="hidden"
-                            id="file-upload"
-                          />
-                          <label htmlFor="file-upload">
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="cursor-pointer border-2 border-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-500 transition-all duration-300 text-slate-300"
-                            >
-                              <Upload className="h-4 w-4 mr-2" />
-                              Upload Magic
-                            </Button>
-                          </label>
-                        </div>
+                        <Text weight="semibold" className="text-neutral-900 text-lg">
+                          Tell Your Story
+                        </Text>
                       </div>
                       
                       <Textarea
                         value={storyContent}
                         onChange={(e) => setStoryContent(e.target.value)}
-                        placeholder="Enter your story, script, or creative vision here... Describe the world, characters, emotions, and magic you want to create. The more vivid, the better the AI can work its magic! ✨"
-                        rows={isGenerated ? 4 : 8}
-                        className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 text-base leading-relaxed bg-slate-700/50 backdrop-blur-sm transition-all duration-300 text-slate-200 placeholder:text-slate-400"
+                        placeholder="Describe your creative vision, story concept, or project idea. The more detail you provide, the better we can match you with the perfect talent..."
+                        rows={isGenerated ? 4 : 6}
+                        className="border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 text-base leading-relaxed bg-white resize-none"
                         disabled={isSimulating}
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Select value={projectType} onValueChange={setProjectType} disabled={isSimulating}>
-                        <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm h-12 text-slate-200">
-                          <SelectValue placeholder="🎬 Project Type (Optional)" />
+                        <SelectTrigger className="border-neutral-200 focus:border-primary-500 bg-white h-12">
+                          <SelectValue placeholder="Project Type (Optional)" />
                         </SelectTrigger>
-                        <SelectContent className="bg-slate-800 border-slate-700">
-                          <SelectItem value="film">🎬 Film</SelectItem>
-                          <SelectItem value="commercial">📺 Commercial</SelectItem>
-                          <SelectItem value="tv_show">📻 TV Show</SelectItem>
-                          <SelectItem value="documentary">🎥 Documentary</SelectItem>
-                          <SelectItem value="music_video">🎵 Music Video</SelectItem>
-                          <SelectItem value="other">✨ Other</SelectItem>
+                        <SelectContent className="bg-white border-neutral-200">
+                          <SelectItem value="film">Film</SelectItem>
+                          <SelectItem value="commercial">Commercial</SelectItem>
+                          <SelectItem value="tv_show">TV Show</SelectItem>
+                          <SelectItem value="documentary">Documentary</SelectItem>
+                          <SelectItem value="music_video">Music Video</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
 
                       <Button 
                         onClick={handleGenerate}
                         disabled={isSimulating || !storyContent.trim()}
-                        className={`relative overflow-hidden h-12 font-bold text-lg transition-all duration-300 transform ${
-                          buttonClicked ? 'scale-95' : 'hover:scale-105'
-                        } ${
-                          showPulse && !isSimulating 
-                            ? 'bg-gradient-to-r from-green-500 to-blue-500 shadow-glow-green' 
-                            : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
-                        } border-0 text-white shadow-xl`}
+                        className="h-12 font-semibold text-base bg-primary-600 hover:bg-primary-700 text-white transition-all duration-300 hover:shadow-apple"
                       >
                         {isSimulating ? (
                           <>
-                            <Zap className="h-5 w-5 mr-3 animate-spin" />
-                            <span>Generating Magic...</span>
+                            <Sparkles className="h-5 w-5 mr-3 animate-spin" />
+                            <span>Analyzing...</span>
                           </>
                         ) : (
                           <>
-                            <Rocket className="h-5 w-5 mr-3" />
-                            <span>Generate Magic</span>
-                            <Sparkles className="h-5 w-5 ml-3 animate-pulse" />
+                            <Sparkles className="h-5 w-5 mr-3" />
+                            <span>Enhance & Match</span>
                           </>
                         )}
                       </Button>
@@ -431,48 +340,48 @@ Key visual elements have been identified to create stunning cinematography oppor
 
             {/* Simulation Progress */}
             {isSimulating && (
-              <div className="space-y-8 animate-in slide-in-from-bottom-8 duration-500">
-                <Card className="border-0 shadow-2xl bg-slate-800/90 backdrop-blur-xl text-white border border-slate-700">
+              <div className="space-y-8 animate-fade-in">
+                <Card className="border border-neutral-200 shadow-apple-lg bg-white">
                   <CardContent className="p-10">
                     <div className="text-center space-y-8">
                       <div className="flex items-center justify-center space-x-4">
-                        <div className={`p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 ${simulationSteps[currentStep]?.color}`}>
+                        <div className="p-4 rounded-full bg-primary-50 text-primary-600">
                           {simulationSteps[currentStep]?.icon}
                         </div>
-                        <Heading level={2} variant="heading" className="text-white font-display">
+                        <Heading level={3} variant="heading" className="text-neutral-900">
                           {simulationSteps[currentStep]?.title}
                         </Heading>
                       </div>
                       
-                      <Text className="max-w-2xl mx-auto text-slate-300 text-lg">
+                      <Text className="max-w-2xl mx-auto text-neutral-600 text-lg">
                         {simulationSteps[currentStep]?.description}
                       </Text>
                       
                       <div className="space-y-4">
                         <Progress 
                           value={simulationProgress} 
-                          className="w-full max-w-2xl mx-auto h-3 bg-slate-700"
+                          className="w-full max-w-2xl mx-auto h-2 bg-neutral-100"
                         />
                         <div className="flex items-center justify-center space-x-2">
-                          <Text size="lg" weight="bold" className="text-white">
+                          <Text size="lg" weight="semibold" className="text-neutral-900">
                             {Math.round(simulationProgress)}%
                           </Text>
-                          <Text className="text-blue-400">Complete</Text>
+                          <Text className="text-neutral-600">Complete</Text>
                         </div>
                       </div>
 
                       {/* Steps Indicator */}
-                      <div className="flex justify-center space-x-6">
+                      <div className="flex justify-center space-x-4">
                         {simulationSteps.map((step, index) => (
-                          <div key={step.id} className="flex items-center space-x-3">
-                            <div className={`w-4 h-4 rounded-full transition-all duration-500 ${
-                              index < currentStep ? 'bg-green-500 shadow-glow-green' :
-                              index === currentStep ? 'bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse shadow-glow-blue' :
-                              'bg-slate-600'
+                          <div key={step.id} className="flex items-center space-x-2">
+                            <div className={`w-3 h-3 rounded-full transition-all duration-500 ${
+                              index < currentStep ? 'bg-primary-600' :
+                              index === currentStep ? 'bg-primary-600 animate-pulse' :
+                              'bg-neutral-200'
                             }`} />
                             {index < simulationSteps.length - 1 && (
-                              <div className={`w-12 h-1 transition-all duration-500 ${
-                                index < currentStep ? 'bg-green-500' : 'bg-slate-600'
+                              <div className={`w-8 h-0.5 transition-all duration-500 ${
+                                index < currentStep ? 'bg-primary-600' : 'bg-neutral-200'
                               }`} />
                             )}
                           </div>
@@ -486,30 +395,29 @@ Key visual elements have been identified to create stunning cinematography oppor
 
             {/* Generated Content */}
             {isGenerated && (
-              <div className="space-y-12 animate-in slide-in-from-bottom-8 duration-1000">
+              <div className="space-y-16 animate-fade-in">
                 
                 {/* Enhanced Story Preview */}
-                <div className="space-y-6">
+                <div className="space-y-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-full px-6 py-3 mb-6 shadow-xl">
-                      <CheckCircle className="h-6 w-6 text-white animate-bounce" />
-                      <Text size="base" weight="bold" className="text-white">
+                    <div className="inline-flex items-center space-x-3 bg-status-success/10 text-status-success rounded-full px-6 py-3 mb-6">
+                      <CheckCircle className="h-5 w-5" />
+                      <Text size="sm" weight="semibold">
                         Story Enhanced Successfully
                       </Text>
-                      <Star className="h-6 w-6 text-yellow-400 animate-spin-slow" />
                     </div>
-                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      Your Enhanced Cinematic Story
+                    <Heading level={2} variant="heading" className="mb-4 text-neutral-900">
+                      Your Enhanced Story
                     </Heading>
-                    <Text className="text-slate-300 text-lg">
-                      AI has transformed your narrative with Hollywood-grade storytelling magic
+                    <Text className="text-neutral-600 text-lg">
+                      Professional narrative structure with optimized storytelling elements
                     </Text>
                   </div>
 
-                  <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                  <Card className="border border-neutral-200 shadow-apple bg-white">
                     <CardContent className="p-8">
                       <div className="prose prose-lg max-w-none">
-                        <Text className="whitespace-pre-wrap leading-relaxed text-slate-200">
+                        <Text className="whitespace-pre-wrap leading-relaxed text-neutral-700">
                           {mockEnhancedStory}
                         </Text>
                       </div>
@@ -521,18 +429,17 @@ Key visual elements have been identified to create stunning cinematography oppor
                 {talents?.talents && (
                   <div className="space-y-8">
                     <div className="text-center">
-                      <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full px-6 py-3 mb-6 shadow-xl">
-                        <Users className="h-6 w-6 text-white animate-pulse" />
-                        <Text size="base" weight="bold" className="text-white">
+                      <div className="inline-flex items-center space-x-3 bg-primary-50 text-primary-600 rounded-full px-6 py-3 mb-6">
+                        <Users className="h-5 w-5" />
+                        <Text size="sm" weight="semibold">
                           Perfect Matches Found
                         </Text>
-                        <Target className="h-6 w-6 text-yellow-400 animate-bounce" />
                       </div>
-                      <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                        AI-Selected Talent Constellation
+                      <Heading level={2} variant="heading" className="mb-4 text-neutral-900">
+                        Recommended Talent
                       </Heading>
-                      <Text className="text-slate-300 text-lg">
-                        Quantum-matched professionals who will bring your vision to life
+                      <Text className="text-neutral-600 text-lg">
+                        Professionals selected based on your project requirements
                       </Text>
                     </div>
 
@@ -542,38 +449,38 @@ Key visual elements have been identified to create stunning cinematography oppor
                           key={talent.id}
                           className={`transition-all duration-500 ${
                             highlightedTalents.includes(talent.id)
-                              ? 'scale-110 z-10 shadow-glow-blue'
+                              ? 'scale-105 z-10'
                               : highlightedTalents.length > 0
-                              ? 'opacity-40 scale-95'
+                              ? 'opacity-50 scale-95'
                               : 'hover:scale-105'
                           }`}
                         >
-                          <Card className="border-0 shadow-xl bg-slate-800/80 backdrop-blur-xl hover:shadow-glow-blue transition-all duration-300 relative overflow-hidden group border border-slate-700">
+                          <Card className="border border-neutral-200 shadow-apple hover:shadow-apple-lg transition-all duration-300 bg-white group">
                             {/* Match Score Badge */}
                             <div className="absolute top-3 right-3 z-10">
-                              <Badge className="bg-gradient-to-r from-green-500 to-blue-500 text-white border-0 shadow-glow-green animate-pulse font-bold">
-                                {95 - index * 3}% ⚡
+                              <Badge className="bg-status-success text-white border-0 font-semibold">
+                                {95 - index * 3}%
                               </Badge>
                             </div>
 
-                            <CardContent className="p-6 relative z-10">
+                            <CardContent className="p-6">
                               <div className="flex items-center space-x-4 mb-4">
-                                <Avatar className="h-16 w-16 ring-4 ring-blue-500/50 shadow-xl">
+                                <Avatar className="h-14 w-14 ring-2 ring-neutral-100">
                                   <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
-                                  <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg">
+                                  <AvatarFallback className="bg-neutral-100 text-neutral-600 font-semibold">
                                     {talent.name.split(' ').map(n => n[0]).join('')}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center space-x-2">
-                                    <Text weight="bold" className="truncate text-slate-200">
+                                    <Text weight="semibold" className="truncate text-neutral-900">
                                       {talent.name}
                                     </Text>
                                     {talent.isVerified && (
-                                      <Star className="h-5 w-5 text-yellow-400 fill-current animate-pulse" />
+                                      <Star className="h-4 w-4 text-film-gold fill-current" />
                                     )}
                                   </div>
-                                  <Text size="sm" className="truncate text-slate-400 capitalize font-medium">
+                                  <Text size="sm" className="truncate text-neutral-500 capitalize">
                                     {talent.experienceLevel}
                                   </Text>
                                 </div>
@@ -581,33 +488,33 @@ Key visual elements have been identified to create stunning cinematography oppor
                               
                               <div className="flex flex-wrap gap-1 mb-4">
                                 {talent.skills.slice(0, 2).map((skill) => (
-                                  <Badge key={skill} className="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                                  <Badge key={skill} variant="secondary" className="text-xs bg-neutral-100 text-neutral-600">
                                     {skill}
                                   </Badge>
                                 ))}
                                 {talent.skills.length > 2 && (
-                                  <Badge className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                  <Badge variant="secondary" className="text-xs bg-neutral-100 text-neutral-600">
                                     +{talent.skills.length - 2}
                                   </Badge>
                                 )}
                               </div>
 
                               {/* AI Reasoning */}
-                              <div className="bg-gradient-to-r from-slate-700/50 to-slate-600/50 p-3 rounded-xl mb-4 border border-slate-600">
-                                <Text size="xs" className="text-slate-300 font-semibold">
-                                  🎯 AI Match: {index === 0 ? 'Perfect for cyberpunk cinematography & neon aesthetics' : 
-                                           index === 1 ? 'Ideal for character depth & emotional storytelling' :
-                                           index === 2 ? 'Expert in VR sequences & digital world creation' :
-                                           'Specialist in futuristic sound design & atmosphere'}
+                              <div className="bg-neutral-50 p-3 rounded-lg mb-4">
+                                <Text size="xs" className="text-neutral-600 font-medium">
+                                  {index === 0 ? 'Perfect for narrative development & character depth' : 
+                                   index === 1 ? 'Ideal for visual storytelling & cinematography' :
+                                   index === 2 ? 'Expert in technical production & post-production' :
+                                   'Specialist in creative direction & project management'}
                                 </Text>
                               </div>
 
                               <Link to={`/talents/${talent.id}`}>
                                 <Button 
                                   size="sm" 
-                                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 text-white font-semibold transition-all duration-300 shadow-xl"
+                                  className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-medium transition-all duration-300"
                                 >
-                                  View Profile ⚡
+                                  View Profile
                                 </Button>
                               </Link>
                             </CardContent>
@@ -621,29 +528,28 @@ Key visual elements have been identified to create stunning cinematography oppor
                 {/* Story Timeline */}
                 <div className="space-y-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-orange-600 to-red-600 rounded-full px-6 py-3 mb-6 shadow-xl">
-                      <Clock className="h-6 w-6 text-white animate-spin-slow" />
-                      <Text size="base" weight="bold" className="text-white">
-                        Production Timeline Created
+                    <div className="inline-flex items-center space-x-3 bg-film-gold/10 text-film-gold rounded-full px-6 py-3 mb-6">
+                      <Film className="h-5 w-5" />
+                      <Text size="sm" weight="semibold">
+                        Production Timeline
                       </Text>
-                      <Rocket className="h-6 w-6 text-white animate-bounce" />
                     </div>
-                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
-                      Story Timeline & Talent Constellation
+                    <Heading level={2} variant="heading" className="mb-4 text-neutral-900">
+                      Story Structure & Talent Mapping
                     </Heading>
-                    <Text className="text-slate-300 text-lg">
-                      Hover over story acts to see which talents are perfect for each epic scene
+                    <Text className="text-neutral-600 text-lg">
+                      Hover over story acts to see recommended talent for each scene
                     </Text>
                   </div>
 
-                  <Card className="border-0 shadow-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700">
+                  <Card className="border border-neutral-200 shadow-apple bg-white">
                     <CardContent className="p-10">
                       <div className="relative">
                         {/* Timeline Line */}
-                        <div className="absolute top-1/2 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transform -translate-y-1/2 shadow-glow-blue"></div>
+                        <div className="absolute top-1/2 left-0 right-0 h-1 bg-neutral-200 rounded-full transform -translate-y-1/2"></div>
                         
                         {/* Story Acts */}
-                        <div className="relative flex justify-between items-center h-20">
+                        <div className="relative flex justify-between items-center h-16">
                           {storyActs.map((act) => (
                             <div
                               key={act.id}
@@ -653,41 +559,37 @@ Key visual elements have been identified to create stunning cinematography oppor
                               onMouseLeave={() => handleActHover(null)}
                             >
                               {/* Act Marker */}
-                              <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${act.color} border-4 border-white shadow-xl transform transition-all duration-300 group-hover:scale-150 group-hover:shadow-glow-blue ${hoveredAct === act.id ? 'scale-150 shadow-glow-blue animate-pulse' : ''} flex items-center justify-center`}>
-                                <div className="text-white">
+                              <div className={`w-6 h-6 rounded-full bg-primary-600 border-4 border-white shadow-apple transform transition-all duration-300 group-hover:scale-150 ${hoveredAct === act.id ? 'scale-150' : ''} flex items-center justify-center`}>
+                                <div className="text-white text-xs">
                                   {act.icon}
                                 </div>
                               </div>
 
                               {/* Tooltip */}
-                              <div className={`absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 transition-all duration-300 ${hoveredAct === act.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-                                <div className="bg-slate-800 text-white p-6 rounded-2xl shadow-2xl max-w-xs border border-slate-700 backdrop-blur-xl">
-                                  <div className="flex items-center space-x-3 mb-3">
-                                    <div className={`p-2 rounded-full bg-gradient-to-r ${act.color}`}>
+                              <div className={`absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2 transition-all duration-300 ${hoveredAct === act.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
+                                <div className="bg-white border border-neutral-200 shadow-apple-lg p-4 rounded-apple max-w-xs">
+                                  <div className="flex items-center space-x-2 mb-2">
+                                    <div className="p-1 rounded bg-primary-50 text-primary-600">
                                       {act.icon}
                                     </div>
-                                    <Text weight="bold" className="text-white text-base">
+                                    <Text weight="semibold" className="text-neutral-900">
                                       {act.title}
                                     </Text>
                                   </div>
-                                  <Text size="sm" className="text-slate-300 leading-relaxed mb-4">
+                                  <Text size="sm" className="text-neutral-600 leading-relaxed mb-3">
                                     {act.description}
                                   </Text>
-                                  <div className="pt-3 border-t border-slate-600">
-                                    <Text size="sm" className="text-white font-semibold">
-                                      ⚡ Matched Talents: {act.talents.length}
+                                  <div className="pt-2 border-t border-neutral-100">
+                                    <Text size="sm" className="text-neutral-900 font-medium">
+                                      Matched Talents: {act.talents.length}
                                     </Text>
-                                  </div>
-                                  {/* Arrow */}
-                                  <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-                                    <div className="w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-slate-800"></div>
                                   </div>
                                 </div>
                               </div>
 
                               {/* Act Label */}
-                              <div className="absolute top-full mt-6 left-1/2 transform -translate-x-1/2 text-center">
-                                <Text size="sm" weight="bold" className="whitespace-nowrap text-slate-200">
+                              <div className="absolute top-full mt-4 left-1/2 transform -translate-x-1/2 text-center">
+                                <Text size="sm" weight="medium" className="whitespace-nowrap text-neutral-700">
                                   {act.title}
                                 </Text>
                               </div>
@@ -701,39 +603,38 @@ Key visual elements have been identified to create stunning cinematography oppor
 
                 {/* Call to Action */}
                 <div className="text-center space-y-8">
-                  <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                  <Card className="border border-neutral-200 shadow-apple bg-white">
                     <CardContent className="p-10">
-                      <div className="flex items-center justify-center mb-6">
-                        <Crown className="h-16 w-16 text-yellow-400 animate-float" />
-                      </div>
-                      <Heading level={2} variant="heading" className="mb-6 font-display bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                        Ready to Create Magic?
+                      <Heading level={2} variant="heading" className="mb-6 text-neutral-900">
+                        Ready to Begin Production?
                       </Heading>
-                      <Text className="mb-8 max-w-3xl mx-auto text-slate-300 text-lg leading-relaxed">
-                        Your story has been quantum-analyzed and the perfect talent constellation has been mapped. 
-                        Take the next step to transform your vision into cinematic reality.
+                      <Text className="mb-8 max-w-2xl mx-auto text-neutral-600 text-lg leading-relaxed">
+                        Your story has been enhanced and the perfect talent has been identified. 
+                        Take the next step to bring your vision to life.
                       </Text>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link to="/projects/new">
                           <Button 
                             size="lg" 
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-xl text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                            className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold px-8 py-4 text-lg transition-all duration-300 hover:shadow-apple-lg"
                           >
-                            Create Full Project
-                            <ArrowRight className="ml-3 h-6 w-6" />
+                            Create Project
+                            <ArrowRight className="ml-3 h-5 w-5" />
                           </Button>
                         </Link>
                         <Link to="/talents">
                           <Button 
                             size="lg" 
-                            className="bg-gradient-to-r from-green-600 to-blue-600 hover:shadow-glow-green border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                            variant="outline"
+                            className="border-2 border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
                           >
-                            <Users className="mr-3 h-6 w-6" />
-                            Browse All Talents
+                            <Users className="mr-3 h-5 w-5" />
+                            Browse All Talent
                           </Button>
                         </Link>
                         <Button 
                           size="lg" 
+                          variant="outline"
                           onClick={() => {
                             setIsGenerated(false);
                             setStoryContent('');
@@ -741,10 +642,10 @@ Key visual elements have been identified to create stunning cinematography oppor
                             setSimulationProgress(0);
                             setIsAutoDemo(false);
                           }}
-                          className="bg-gradient-to-r from-orange-600 to-red-600 hover:shadow-glow-pink border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                          className="border-2 border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
                         >
                           Try Another Story
-                          <Sparkles className="ml-3 h-6 w-6 animate-pulse" />
+                          <Sparkles className="ml-3 h-5 w-5" />
                         </Button>
                       </div>
                     </CardContent>

@@ -49,11 +49,14 @@ export function TalentDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-white">
         <Section variant="default" padding="xl">
           <Container>
             <div className="flex items-center justify-center h-64">
-              <div className="text-lg text-slate-300">Loading talent...</div>
+              <div className="text-center space-y-4">
+                <div className="w-8 h-8 border-2 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto" />
+                <Text size="lg" className="text-neutral-600">Loading talent profile...</Text>
+              </div>
             </div>
           </Container>
         </Section>
@@ -63,11 +66,11 @@ export function TalentDetail() {
 
   if (error || !talent) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-white">
         <Section variant="default" padding="xl">
           <Container>
             <div className="flex items-center justify-center h-64">
-              <div className="text-lg text-red-400">Talent not found</div>
+              <Text size="lg" className="text-status-error">Talent not found</Text>
             </div>
           </Container>
         </Section>
@@ -76,23 +79,23 @@ export function TalentDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-white">
       <Section variant="default" padding="lg">
         <Container size="xl">
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="hover:bg-slate-800 hover:text-blue-400 text-slate-300 border border-slate-700">
+                <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="hover:bg-neutral-100 text-neutral-700">
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
-                <Heading level={1} variant="heading" className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <Heading level={1} variant="heading" className="text-neutral-900">
                   Talent Profile
                 </Heading>
               </div>
               
               <div className="flex space-x-2">
                 <Link to={`/talents/${id}/edit`}>
-                  <Button variant="outline" size="sm" className="border-slate-600 hover:bg-blue-600 hover:text-white text-slate-300">
+                  <Button variant="outline" size="sm" className="border-neutral-200 hover:bg-neutral-50 text-neutral-700">
                     <Edit className="h-4 w-4 mr-2" />
                     Edit
                   </Button>
@@ -102,7 +105,7 @@ export function TalentDetail() {
                   size="sm" 
                   onClick={handleDelete}
                   disabled={deleteMutation.isPending}
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-status-error hover:bg-red-600"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
                   Delete
@@ -110,53 +113,53 @@ export function TalentDetail() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Profile */}
-              <div className="lg:col-span-2 space-y-6">
-                <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+              <div className="lg:col-span-2 space-y-8">
+                <Card className="border border-neutral-200 shadow-apple bg-white">
                   <CardHeader>
-                    <div className="flex items-start space-x-4">
-                      <Avatar className="h-20 w-20 ring-4 ring-blue-500/30">
+                    <div className="flex items-start space-x-6">
+                      <Avatar className="h-24 w-24 ring-4 ring-neutral-100">
                         <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
-                        <AvatarFallback className="text-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                        <AvatarFallback className="text-xl bg-neutral-600 text-white font-semibold">
                           {talent.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                       
                       <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <CardTitle className="text-2xl text-slate-200">{talent.name}</CardTitle>
+                        <div className="flex items-center space-x-3 mb-3">
+                          <CardTitle className="text-3xl text-neutral-900">{talent.name}</CardTitle>
                           {talent.isVerified && (
-                            <CheckCircle className="h-6 w-6 text-blue-400" />
+                            <CheckCircle className="h-6 w-6 text-primary-600" />
                           )}
                           <Badge 
-                            variant={talent.subscriptionTier === 'premium' ? 'default' : talent.subscriptionTier === 'basic' ? 'secondary' : 'outline'} 
-                            className={talent.subscriptionTier === 'premium' ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white' : 'bg-slate-700 text-slate-300'}
+                            variant={talent.subscriptionTier === 'premium' ? 'default' : 'secondary'} 
+                            className={talent.subscriptionTier === 'premium' ? 'bg-film-gold text-white border-0' : 'bg-neutral-100 text-neutral-600'}
                           >
                             {talent.subscriptionTier}
                           </Badge>
                         </div>
                         
-                        <div className="flex flex-wrap gap-4 text-sm text-slate-400">
+                        <div className="grid grid-cols-2 gap-4 text-sm text-neutral-600">
                           {talent.location && (
                             <div className="flex items-center">
-                              <MapPin className="h-4 w-4 mr-1" />
+                              <MapPin className="h-4 w-4 mr-2" />
                               {talent.location}
                             </div>
                           )}
                           <div className="flex items-center">
-                            <Mail className="h-4 w-4 mr-1" />
+                            <Mail className="h-4 w-4 mr-2" />
                             {talent.email}
                           </div>
                           {talent.phone && (
                             <div className="flex items-center">
-                              <Phone className="h-4 w-4 mr-1" />
+                              <Phone className="h-4 w-4 mr-2" />
                               {talent.phone}
                             </div>
                           )}
                           {talent.hourlyRate && (
                             <div className="flex items-center">
-                              <DollarSign className="h-4 w-4 mr-1" />
+                              <DollarSign className="h-4 w-4 mr-2" />
                               ${talent.hourlyRate}/hr
                             </div>
                           )}
@@ -167,21 +170,21 @@ export function TalentDetail() {
                   
                   {talent.bio && (
                     <CardContent>
-                      <h3 className="font-semibold mb-2 text-slate-200">About</h3>
-                      <Text className="leading-relaxed text-slate-300">{talent.bio}</Text>
+                      <h3 className="font-semibold mb-3 text-neutral-900">About</h3>
+                      <Text className="leading-relaxed text-neutral-700">{talent.bio}</Text>
                     </CardContent>
                   )}
                 </Card>
 
                 {/* Skills */}
-                <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                <Card className="border border-neutral-200 shadow-apple bg-white">
                   <CardHeader>
-                    <CardTitle className="text-slate-200">Skills & Expertise</CardTitle>
+                    <CardTitle className="text-neutral-900">Skills & Expertise</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
                       {talent.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary" className="bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                        <Badge key={skill} variant="secondary" className="bg-neutral-100 text-neutral-700 border border-neutral-200">
                           {skill}
                         </Badge>
                       ))}
@@ -191,9 +194,9 @@ export function TalentDetail() {
 
                 {/* Portfolio */}
                 {media?.media && media.media.length > 0 && (
-                  <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                  <Card className="border border-neutral-200 shadow-apple bg-white">
                     <CardHeader>
-                      <CardTitle className="text-slate-200">Portfolio</CardTitle>
+                      <CardTitle className="text-neutral-900">Portfolio</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -203,25 +206,25 @@ export function TalentDetail() {
                               <img
                                 src={item.mediaUrl}
                                 alt={item.title || 'Portfolio item'}
-                                className="w-full h-32 object-cover rounded-lg"
+                                className="w-full h-32 object-cover rounded-lg border border-neutral-200"
                               />
                             ) : (
                               <video
                                 src={item.mediaUrl}
-                                className="w-full h-32 object-cover rounded-lg"
+                                className="w-full h-32 object-cover rounded-lg border border-neutral-200"
                                 controls
                               />
                             )}
                             {item.isFeatured && (
                               <div className="absolute top-2 right-2">
-                                <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                                <Star className="h-4 w-4 text-film-gold fill-current" />
                               </div>
                             )}
                             {item.title && (
                               <div className="mt-2">
-                                <Text size="sm" weight="medium" className="text-slate-200">{item.title}</Text>
+                                <Text size="sm" weight="medium" className="text-neutral-900">{item.title}</Text>
                                 {item.description && (
-                                  <Text size="xs" className="text-slate-400">{item.description}</Text>
+                                  <Text size="xs" className="text-neutral-600">{item.description}</Text>
                                 )}
                               </div>
                             )}
@@ -235,24 +238,24 @@ export function TalentDetail() {
 
               {/* Sidebar */}
               <div className="space-y-6">
-                <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                <Card className="border border-neutral-200 shadow-apple bg-white">
                   <CardHeader>
-                    <CardTitle className="text-slate-200">Quick Info</CardTitle>
+                    <CardTitle className="text-neutral-900">Quick Info</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {talent.experienceLevel && (
                       <div>
-                        <label className="text-sm font-medium text-slate-400">Experience Level</label>
-                        <Text className="capitalize text-slate-200">{talent.experienceLevel}</Text>
+                        <label className="text-sm font-medium text-neutral-600">Experience Level</label>
+                        <Text className="capitalize text-neutral-900">{talent.experienceLevel}</Text>
                       </div>
                     )}
                     
                     {talent.availability && (
                       <div>
-                        <label className="text-sm font-medium text-slate-400">Availability</label>
+                        <label className="text-sm font-medium text-neutral-600">Availability</label>
                         <Badge 
                           variant={talent.availability === 'available' ? 'default' : 'secondary'}
-                          className={talent.availability === 'available' ? 'bg-gradient-to-r from-green-600 to-blue-600 text-white' : 'bg-slate-700 text-slate-400'}
+                          className={talent.availability === 'available' ? 'bg-status-success text-white' : 'bg-neutral-200 text-neutral-600'}
                         >
                           {talent.availability}
                         </Badge>
@@ -260,32 +263,32 @@ export function TalentDetail() {
                     )}
                     
                     <div>
-                      <label className="text-sm font-medium text-slate-400">Member Since</label>
-                      <Text className="text-slate-200">{new Date(talent.createdAt).toLocaleDateString()}</Text>
+                      <label className="text-sm font-medium text-neutral-600">Member Since</label>
+                      <Text className="text-neutral-900">{new Date(talent.createdAt).toLocaleDateString()}</Text>
                     </div>
                     
                     {talent.subscriptionExpiresAt && (
                       <div>
-                        <label className="text-sm font-medium text-slate-400">Subscription Expires</label>
-                        <Text className="text-slate-200">{new Date(talent.subscriptionExpiresAt).toLocaleDateString()}</Text>
+                        <label className="text-sm font-medium text-neutral-600">Subscription Expires</label>
+                        <Text className="text-neutral-900">{new Date(talent.subscriptionExpiresAt).toLocaleDateString()}</Text>
                       </div>
                     )}
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
+                <Card className="border border-neutral-200 shadow-apple bg-white">
                   <CardHeader>
-                    <CardTitle className="text-slate-200">Actions</CardTitle>
+                    <CardTitle className="text-neutral-900">Actions</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-2">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0">
+                  <CardContent className="space-y-3">
+                    <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium">
                       Contact Talent
                     </Button>
-                    <Button className="w-full border-slate-600 hover:bg-slate-700 text-slate-300" variant="outline">
+                    <Button className="w-full border-neutral-200 hover:bg-neutral-50 text-neutral-700" variant="outline">
                       Add to Project
                     </Button>
                     <Link to="/subscriptions">
-                      <Button className="w-full border-slate-600 hover:bg-slate-700 text-slate-300" variant="outline">
+                      <Button className="w-full border-neutral-200 hover:bg-neutral-50 text-neutral-700" variant="outline">
                         Upgrade Subscription
                       </Button>
                     </Link>

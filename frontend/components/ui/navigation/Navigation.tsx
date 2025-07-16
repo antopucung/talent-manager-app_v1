@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Users, Plus, Film, Sparkles, CreditCard, Home, Star, Zap, ChevronDown } from 'lucide-react';
+import { Users, Plus, Film, Sparkles, CreditCard, Home, Star, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Container } from '../layout/Container';
@@ -19,29 +19,29 @@ export function Navigation() {
     location.pathname.includes('/talents') || location.pathname.includes('/projects');
 
   return (
-    <nav className="bg-slate-900/95 backdrop-blur-xl shadow-2xl border-b border-slate-700/50 sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-md shadow-apple border-b border-neutral-100 sticky top-0 z-50">
       <Container>
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300 group-hover:scale-110">
-                <Zap className="h-6 w-6 text-white" />
+              <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center shadow-apple group-hover:shadow-apple-lg transition-all duration-300">
+                <Film className="h-5 w-5 text-white" />
               </div>
-              <span className="text-2xl font-bold font-display bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="text-xl font-semibold text-neutral-900">
                 TalentHub
               </span>
             </Link>
             
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-1">
               <Link to="/">
                 <Button 
                   variant={isActive('/') ? 'default' : 'ghost'} 
                   size="sm"
                   className={cn(
-                    'flex items-center space-x-2 transition-all duration-300 font-semibold',
+                    'flex items-center space-x-2 transition-all duration-200 font-medium',
                     isActive('/') 
-                      ? 'bg-blue-600 text-white shadow-lg border-0' 
-                      : 'hover:bg-slate-800 hover:text-blue-400 text-slate-300'
+                      ? 'bg-neutral-900 text-white shadow-apple' 
+                      : 'hover:bg-neutral-100 text-neutral-700'
                   )}
                 >
                   <Home className="h-4 w-4" />
@@ -54,14 +54,14 @@ export function Navigation() {
                   variant={isActive('/landing') ? 'default' : 'ghost'} 
                   size="sm"
                   className={cn(
-                    'flex items-center space-x-2 transition-all duration-300 font-semibold',
+                    'flex items-center space-x-2 transition-all duration-200 font-medium',
                     isActive('/landing') 
-                      ? 'bg-blue-600 text-white shadow-lg border-0' 
-                      : 'hover:bg-slate-800 hover:text-blue-400 text-slate-300'
+                      ? 'bg-neutral-900 text-white shadow-apple' 
+                      : 'hover:bg-neutral-100 text-neutral-700'
                   )}
                 >
                   <Star className="h-4 w-4" />
-                  <span>Gallery</span>
+                  <span>Showcase</span>
                 </Button>
               </Link>
 
@@ -71,32 +71,32 @@ export function Navigation() {
                     variant={isTalentEcosystemActive() ? 'default' : 'ghost'} 
                     size="sm"
                     className={cn(
-                      'flex items-center space-x-2 transition-all duration-300 font-semibold',
+                      'flex items-center space-x-2 transition-all duration-200 font-medium',
                       isTalentEcosystemActive() 
-                        ? 'bg-blue-600 text-white shadow-lg border-0' 
-                        : 'hover:bg-slate-800 hover:text-blue-400 text-slate-300'
+                        ? 'bg-neutral-900 text-white shadow-apple' 
+                        : 'hover:bg-neutral-100 text-neutral-700'
                     )}
                   >
                     <Users className="h-4 w-4" />
-                    <span>Talent Ecosystem</span>
+                    <span>Talent</span>
                     <ChevronDown className="h-3 w-3" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-slate-800 border-slate-700 shadow-xl">
+                <DropdownMenuContent className="bg-white border-neutral-200 shadow-apple-lg">
                   <DropdownMenuItem asChild>
-                    <Link to="/talents" className="flex items-center space-x-2 text-slate-200 hover:text-blue-400 hover:bg-slate-700">
+                    <Link to="/talents" className="flex items-center space-x-2 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50">
                       <Users className="h-4 w-4" />
-                      <span>Browse Talents</span>
+                      <span>Browse Talent</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/talents/new" className="flex items-center space-x-2 text-slate-200 hover:text-blue-400 hover:bg-slate-700">
+                    <Link to="/talents/new" className="flex items-center space-x-2 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50">
                       <Plus className="h-4 w-4" />
-                      <span>Add New Talent</span>
+                      <span>Add Talent</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/projects/new" className="flex items-center space-x-2 text-slate-200 hover:text-blue-400 hover:bg-slate-700">
+                    <Link to="/projects/new" className="flex items-center space-x-2 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50">
                       <Film className="h-4 w-4" />
                       <span>Create Project</span>
                     </Link>
@@ -109,14 +109,14 @@ export function Navigation() {
                   variant={isActive('/ai/story-enhancer') ? 'default' : 'ghost'} 
                   size="sm"
                   className={cn(
-                    'flex items-center space-x-2 transition-all duration-300 font-semibold',
+                    'flex items-center space-x-2 transition-all duration-200 font-medium',
                     isActive('/ai/story-enhancer') 
-                      ? 'bg-purple-600 text-white shadow-lg border-0' 
-                      : 'hover:bg-slate-800 hover:text-purple-400 text-slate-300'
+                      ? 'bg-primary-600 text-white shadow-apple' 
+                      : 'hover:bg-neutral-100 text-neutral-700'
                   )}
                 >
                   <Sparkles className="h-4 w-4" />
-                  <span>AI Magic</span>
+                  <span>AI Studio</span>
                 </Button>
               </Link>
             </div>
@@ -128,15 +128,14 @@ export function Navigation() {
                 variant={isActive('/subscriptions') ? 'default' : 'outline'} 
                 size="sm"
                 className={cn(
-                  'flex items-center space-x-2 font-semibold transition-all duration-300',
+                  'flex items-center space-x-2 font-medium transition-all duration-200',
                   isActive('/subscriptions') 
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-lg' 
-                    : 'border-2 border-purple-500/50 hover:bg-purple-600 hover:text-white hover:border-purple-500 text-purple-400'
+                    ? 'bg-film-gold text-white shadow-apple border-0' 
+                    : 'border-neutral-200 hover:bg-neutral-50 text-neutral-700'
                 )}
               >
                 <CreditCard className="h-4 w-4" />
-                <span className="hidden sm:inline">Premium</span>
-                <Star className="h-4 w-4" />
+                <span className="hidden sm:inline">Pro</span>
               </Button>
             </Link>
           </div>
