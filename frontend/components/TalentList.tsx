@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Star, CheckCircle } from 'lucide-react';
+import { Search, MapPin, Star, CheckCircle, ArrowLeft } from 'lucide-react';
 import backend from '~backend/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -51,9 +51,17 @@ export function TalentList() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-8 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Talent Directory</h1>
+        <div className="flex items-center space-x-4">
+          <Link to="/">
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold text-gray-900">Talent Directory</h1>
+        </div>
         <Link to="/talents/new">
           <Button>Add New Talent</Button>
         </Link>
