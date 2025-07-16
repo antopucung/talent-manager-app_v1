@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
-import { Navigation } from './components/Navigation';
+import { Navigation } from './components/ui/navigation/Navigation';
 import { LandingPage } from './components/LandingPage';
 import { TalentList } from './components/TalentList';
 import { TalentForm } from './components/TalentForm';
@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 function AppInner() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-neutral-50">
         <Navigation />
         <main>
           <Routes>

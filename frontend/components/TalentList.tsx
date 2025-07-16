@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Star, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Search, ArrowLeft, Filter } from 'lucide-react';
 import backend from '~backend/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Container } from '@/components/ui/layout/Container';
+import { Section } from '@/components/ui/layout/Section';
+import { Grid } from '@/components/ui/layout/Grid';
+import { Heading } from '@/components/ui/typography/Heading';
+import { Text } from '@/components/ui/typography/Text';
+import { TalentCard } from '@/components/ui/cards/TalentCard';
 
 export function TalentList() {
   const [filters, setFilters] = useState({
@@ -36,184 +40,145 @@ export function TalentList() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-gray-600">Loading talents...</div>
-      </div>
+      <Section variant="elegant" padding="xl">
+        <Container>
+          <div className="flex items-center justify-center h-64">
+            <Text size="lg" color="muted">Loading talents...</Text>
+          </div>
+        </Container>
+      </Section>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-red-600">Error loading talents</div>
-      </div>
+      <Section variant="elegant" padding="xl">
+        <Container>
+          <div className="flex items-center justify-center h-64">
+            <Text size="lg" className="text-status-error">Error loading talents</Text>
+          </div>
+        </Container>
+      </Section>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Link to="/">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Talent Directory</h1>
-        </div>
-        <Link to="/talents/new">
-          <Button>Add New Talent</Button>
-        </Link>
-      </div>
-
-      {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Search className="h-5 w-5" />
-            <span>Search & Filter</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <Input
-              placeholder="Search skills..."
-              value={filters.skills}
-              onChange={(e) => handleFilterChange('skills', e.target.value)}
-            />
-            
-            <Input
-              placeholder="Location..."
-              value={filters.location}
-              onChange={(e) => handleFilterChange('location', e.target.value)}
-            />
-            
-            <Select value={filters.experienceLevel} onValueChange={(value) => handleFilterChange('experienceLevel', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Experience Level" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Levels</SelectItem>
-                <SelectItem value="beginner">Beginner</SelectItem>
-                <SelectItem value="intermediate">Intermediate</SelectItem>
-                <SelectItem value="advanced">Advanced</SelectItem>
-                <SelectItem value="expert">Expert</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            <Select value={filters.availability} onValueChange={(value) => handleFilterChange('availability', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Availability" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="available">Available</SelectItem>
-                <SelectItem value="busy">Busy</SelectItem>
-                <SelectItem value="unavailable">Unavailable</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            <Select value={filters.verified?.toString() || 'all'} onValueChange={(value) => handleFilterChange('verified', value === 'true' ? true : value === 'false' ? false : undefined)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Verification" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="true">Verified Only</SelectItem>
-                <SelectItem value="false">Unverified</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Results */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data?.talents.map((talent) => (
-          <Card key={talent.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
-                    <AvatarFallback>{talent.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <CardTitle className="text-lg flex items-center space-x-2">
-                      <span>{talent.name}</span>
-                      {talent.isVerified && (
-                        <CheckCircle className="h-4 w-4 text-blue-500" />
-                      )}
-                    </CardTitle>
-                    {talent.location && (
-                      <div className="flex items-center text-sm text-gray-600 mt-1">
-                        <MapPin className="h-3 w-3 mr-1" />
-                        {talent.location}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <Badge variant={talent.subscriptionTier === 'premium' ? 'default' : talent.subscriptionTier === 'basic' ? 'secondary' : 'outline'}>
-                  {talent.subscriptionTier}
-                </Badge>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              {talent.bio && (
-                <p className="text-sm text-gray-600 line-clamp-2">{talent.bio}</p>
-              )}
-              
-              <div className="flex flex-wrap gap-1">
-                {talent.skills.slice(0, 3).map((skill) => (
-                  <Badge key={skill} variant="outline" className="text-xs">
-                    {skill}
-                  </Badge>
-                ))}
-                {talent.skills.length > 3 && (
-                  <Badge variant="outline" className="text-xs">
-                    +{talent.skills.length - 3} more
-                  </Badge>
-                )}
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4 text-sm text-gray-600">
-                  {talent.experienceLevel && (
-                    <span className="capitalize">{talent.experienceLevel}</span>
-                  )}
-                  {talent.hourlyRate && (
-                    <span>${talent.hourlyRate}/hr</span>
-                  )}
-                </div>
-                
-                <Badge 
-                  variant={talent.availability === 'available' ? 'default' : 'secondary'}
-                  className="capitalize"
-                >
-                  {talent.availability}
-                </Badge>
-              </div>
-              
-              <Link to={`/talents/${talent.id}`}>
-                <Button className="w-full" variant="outline">
-                  View Profile
+    <Section variant="elegant" padding="lg">
+      <Container>
+        <div className="space-y-8">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Link to="/">
+                <Button variant="ghost" size="sm" className="hover:bg-neutral-100">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Home
                 </Button>
               </Link>
+              <div>
+                <Heading level={1} variant="heading" className="text-neutral-900">
+                  Talent Directory
+                </Heading>
+                <Text color="muted">Discover exceptional talent for your next project</Text>
+              </div>
+            </div>
+            <Link to="/talents/new">
+              <Button className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white border-0">
+                Add New Talent
+              </Button>
+            </Link>
+          </div>
+
+          {/* Filters */}
+          <Card className="border-neutral-200 shadow-sm">
+            <CardHeader>
+              <div className="flex items-center space-x-2">
+                <Filter className="h-5 w-5 text-primary-600" />
+                <Heading level={4} variant="heading">Search & Filter</Heading>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Grid cols={5} gap="md">
+                <Input
+                  placeholder="Search skills..."
+                  value={filters.skills}
+                  onChange={(e) => handleFilterChange('skills', e.target.value)}
+                  className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500"
+                />
+                
+                <Input
+                  placeholder="Location..."
+                  value={filters.location}
+                  onChange={(e) => handleFilterChange('location', e.target.value)}
+                  className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500"
+                />
+                
+                <Select value={filters.experienceLevel} onValueChange={(value) => handleFilterChange('experienceLevel', value)}>
+                  <SelectTrigger className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500">
+                    <SelectValue placeholder="Experience Level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Levels</SelectItem>
+                    <SelectItem value="beginner">Beginner</SelectItem>
+                    <SelectItem value="intermediate">Intermediate</SelectItem>
+                    <SelectItem value="advanced">Advanced</SelectItem>
+                    <SelectItem value="expert">Expert</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Select value={filters.availability} onValueChange={(value) => handleFilterChange('availability', value)}>
+                  <SelectTrigger className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500">
+                    <SelectValue placeholder="Availability" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="available">Available</SelectItem>
+                    <SelectItem value="busy">Busy</SelectItem>
+                    <SelectItem value="unavailable">Unavailable</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Select value={filters.verified?.toString() || 'all'} onValueChange={(value) => handleFilterChange('verified', value === 'true' ? true : value === 'false' ? false : undefined)}>
+                  <SelectTrigger className="border-neutral-300 focus:border-primary-500 focus:ring-primary-500">
+                    <SelectValue placeholder="Verification" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All</SelectItem>
+                    <SelectItem value="true">Verified Only</SelectItem>
+                    <SelectItem value="false">Unverified</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Grid>
             </CardContent>
           </Card>
-        ))}
-      </div>
 
-      {data?.talents.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-500 text-lg">No talents found matching your criteria</div>
-          <Link to="/talents/new">
-            <Button className="mt-4">Add the first talent</Button>
-          </Link>
+          {/* Results */}
+          {data?.talents && data.talents.length > 0 ? (
+            <Grid cols={3} gap="lg">
+              {data.talents.map((talent) => (
+                <TalentCard key={talent.id} talent={talent} />
+              ))}
+            </Grid>
+          ) : (
+            <div className="text-center py-16">
+              <div className="max-w-md mx-auto">
+                <Search className="h-16 w-16 mx-auto mb-4 text-neutral-400" />
+                <Heading level={3} variant="heading" className="text-neutral-600 mb-2">
+                  No talents found
+                </Heading>
+                <Text color="muted" className="mb-6">
+                  No talents match your current criteria. Try adjusting your filters or add new talent to the platform.
+                </Text>
+                <Link to="/talents/new">
+                  <Button className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white border-0">
+                    Add the First Talent
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </Container>
+    </Section>
   );
 }
