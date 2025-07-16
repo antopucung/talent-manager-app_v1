@@ -27,12 +27,12 @@ const headingStyles = {
     6: 'text-base md:text-xl font-bold font-display',
   },
   subheading: {
-    1: 'text-2xl md:text-4xl font-semibold text-dark-700',
-    2: 'text-xl md:text-3xl font-semibold text-dark-700',
-    3: 'text-lg md:text-2xl font-semibold text-dark-700',
-    4: 'text-base md:text-xl font-semibold text-dark-700',
-    5: 'text-sm md:text-lg font-semibold text-dark-700',
-    6: 'text-xs md:text-base font-semibold text-dark-700',
+    1: 'text-2xl md:text-4xl font-semibold text-slate-300',
+    2: 'text-xl md:text-3xl font-semibold text-slate-300',
+    3: 'text-lg md:text-2xl font-semibold text-slate-300',
+    4: 'text-base md:text-xl font-semibold text-slate-300',
+    5: 'text-sm md:text-lg font-semibold text-slate-300',
+    6: 'text-xs md:text-base font-semibold text-slate-300',
   },
 };
 

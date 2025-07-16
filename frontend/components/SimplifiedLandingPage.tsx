@@ -46,7 +46,7 @@ interface ParticleProps {
 function FloatingParticle({ x, y, color, size, speed }: ParticleProps) {
   return (
     <div
-      className={`absolute rounded-full opacity-60 animate-float`}
+      className={`absolute rounded-full opacity-30 animate-float`}
       style={{
         left: `${x}%`,
         top: `${y}%`,
@@ -85,19 +85,19 @@ export function SimplifiedLandingPage() {
   // Generate floating particles
   useEffect(() => {
     const newParticles: ParticleProps[] = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
       newParticles.push({
         x: Math.random() * 100,
         y: Math.random() * 100,
-        color: ['#0ea5e9', '#d946ef', '#00ff88', '#ff0080', '#00d4ff'][Math.floor(Math.random() * 5)],
-        size: Math.random() * 8 + 4,
+        color: ['#3b82f6', '#8b5cf6', '#10b981', '#ec4899', '#06b6d4'][Math.floor(Math.random() * 5)],
+        size: Math.random() * 6 + 3,
         speed: Math.random() * 2,
       });
     }
     setParticles(newParticles);
   }, []);
 
-  // Enhanced simulation steps with more visual appeal
+  // Enhanced simulation steps
   const simulationSteps: SimulationStep[] = [
     {
       id: 'analyzing',
@@ -105,7 +105,7 @@ export function SimplifiedLandingPage() {
       description: 'Neural networks are analyzing your creative vision with quantum precision...',
       duration: 2500,
       icon: <Brain className="h-8 w-8 animate-pulse" />,
-      color: 'text-accent-cyan'
+      color: 'text-blue-400'
     },
     {
       id: 'enhancing',
@@ -113,7 +113,7 @@ export function SimplifiedLandingPage() {
       description: 'Rebuilding narrative structure with Hollywood-grade storytelling algorithms...',
       duration: 3000,
       icon: <Wand2 className="h-8 w-8 animate-spin" />,
-      color: 'text-secondary-500'
+      color: 'text-purple-400'
     },
     {
       id: 'matching',
@@ -121,7 +121,7 @@ export function SimplifiedLandingPage() {
       description: 'Scanning the universe for perfect creative matches across dimensions...',
       duration: 3500,
       icon: <Target className="h-8 w-8 animate-bounce" />,
-      color: 'text-accent-neon'
+      color: 'text-green-400'
     },
     {
       id: 'optimizing',
@@ -129,7 +129,7 @@ export function SimplifiedLandingPage() {
       description: 'Weaving magic into reality with precision-engineered creative alchemy...',
       duration: 2000,
       icon: <Rocket className="h-8 w-8 animate-pulse" />,
-      color: 'text-accent-orange'
+      color: 'text-pink-400'
     }
   ];
 
@@ -149,7 +149,7 @@ export function SimplifiedLandingPage() {
     }
   }, [storyContent, projectType, isAutoDemo, isSimulating, isGenerated]);
 
-  // Simulation effect with enhanced visuals
+  // Simulation effect
   useEffect(() => {
     if (!isSimulating) return;
 
@@ -194,7 +194,7 @@ export function SimplifiedLandingPage() {
         description: "Opening sequence in the neon metropolis. Establishing the cyberpunk world and introducing our hacker protagonist.",
         position: 15,
         talents: availableTalentIds.slice(0, 2),
-        color: "from-accent-cyan to-primary-500",
+        color: "from-blue-500 to-cyan-500",
         icon: <Lightbulb className="h-5 w-5" />
       },
       {
@@ -203,7 +203,7 @@ export function SimplifiedLandingPage() {
         description: "The discovery of the ancient AI. High-intensity virtual reality sequences requiring specialized technical talent.",
         position: 45,
         talents: availableTalentIds.slice(1, 4),
-        color: "from-secondary-500 to-accent-pink",
+        color: "from-purple-500 to-pink-500",
         icon: <Brain className="h-5 w-5" />
       },
       {
@@ -212,14 +212,13 @@ export function SimplifiedLandingPage() {
         description: "The climactic battle between digital and physical worlds. Epic visual effects and emotional performances.",
         position: 75,
         talents: availableTalentIds.slice(0, 3),
-        color: "from-accent-neon to-accent-orange",
+        color: "from-green-500 to-blue-500",
         icon: <Rocket className="h-5 w-5" />
       }
     ];
     
     setStoryActs(acts);
     
-    // Enhanced success toast
     toast({ 
       title: '🚀 MAGIC COMPLETE!', 
       description: 'Your story has been transformed into a cinematic masterpiece!' 
@@ -263,7 +262,7 @@ export function SimplifiedLandingPage() {
           setProjectType('film');
         }, 500);
       }
-    }, 30); // Faster typing for better UX
+    }, 30);
   };
 
   const handleActHover = (actId: number | null) => {
@@ -289,7 +288,7 @@ Key visual elements have been identified to create stunning cinematography oppor
 🎭 EMOTIONAL RESONANCE: TRANSCENDENT`;
 
   return (
-    <div className="min-h-screen bg-gradient-mesh relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
       {/* Floating Particles Background */}
       <div className="fixed inset-0 pointer-events-none">
         {particles.map((particle, index) => (
@@ -302,59 +301,58 @@ Key visual elements have been identified to create stunning cinematography oppor
         <Container size={isGenerated ? "xl" : "md"}>
           <div className={`transition-all duration-1000 ${isGenerated ? 'space-y-12' : 'text-center space-y-8'}`}>
             
-            {/* Header with Enhanced Styling */}
+            {/* Header */}
             <div className="text-center relative">
-              <div className="inline-flex items-center space-x-3 bg-gradient-primary backdrop-blur-xl rounded-full px-8 py-4 mb-8 shadow-electric border border-white/20">
-                <Sparkles className="h-6 w-6 text-white animate-spin-slow" />
-                <Text size="base" weight="semibold" color="white">
+              <div className="inline-flex items-center space-x-3 bg-slate-800/80 backdrop-blur-xl rounded-full px-8 py-4 mb-8 shadow-xl border border-slate-700">
+                <Sparkles className="h-6 w-6 text-blue-400 animate-spin-slow" />
+                <Text size="base" weight="semibold" className="text-slate-200">
                   AI-Powered Quantum Story & Talent Fusion
                 </Text>
-                <Zap className="h-6 w-6 text-accent-yellow animate-pulse" />
+                <Zap className="h-6 w-6 text-purple-400 animate-pulse" />
               </div>
               
               <Heading level={1} variant="display" className="mb-8 leading-tight font-display">
-                <span className="bg-gradient-neon bg-clip-text text-transparent animate-glow">
+                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                   Transform Your Story Into
                 </span>
                 <br />
-                <span className="bg-gradient-fire bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Cinematic Reality
                 </span>
               </Heading>
               
-              <Text size="xl" className="mb-8 max-w-4xl mx-auto leading-relaxed text-dark-600">
+              <Text size="xl" className="mb-8 max-w-4xl mx-auto leading-relaxed text-slate-300">
                 Write your vision, watch AI magic unfold, and connect with the perfect talent constellation to bring your dreams to life.
               </Text>
 
-              {/* Enhanced Demo Button */}
+              {/* Demo Button */}
               {!isGenerated && !isSimulating && (
                 <div className="mb-8">
                   <Button 
                     onClick={startDemo}
-                    className="group relative overflow-hidden bg-gradient-success hover:shadow-neon transition-all duration-300 transform hover:scale-105 border-0 text-dark-50 font-semibold px-8 py-4 text-lg"
+                    className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 border-0 text-white font-semibold px-8 py-4 text-lg shadow-xl"
                   >
-                    <div className="absolute inset-0 bg-gradient-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <Play className="h-5 w-5 mr-3 group-hover:animate-bounce" />
-                    <span className="relative z-10">Experience AI Magic Demo</span>
+                    <span>Experience AI Magic Demo</span>
                     <Rocket className="h-5 w-5 ml-3 group-hover:animate-pulse" />
                   </Button>
                 </div>
               )}
             </div>
 
-            {/* Enhanced Story Input Section */}
+            {/* Story Input Section */}
             <div className={`transition-all duration-1000 ${isGenerated ? 'max-w-2xl' : 'max-w-5xl mx-auto'}`}>
-              <Card className="border-0 shadow-mega bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl">
+              <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className="w-3 h-3 bg-accent-neon rounded-full animate-pulse" />
-                          <Text weight="semibold" className="text-dark-800 text-lg">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" />
+                          <Text weight="semibold" className="text-slate-200 text-lg">
                             Tell us your epic story
                           </Text>
-                          <div className="w-3 h-3 bg-secondary-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                          <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
                         </div>
                         <div className="flex items-center space-x-2">
                           <input
@@ -367,7 +365,7 @@ Key visual elements have been identified to create stunning cinematography oppor
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="cursor-pointer border-2 border-primary-300 hover:bg-gradient-primary hover:text-white hover:border-primary-500 transition-all duration-300"
+                              className="cursor-pointer border-2 border-slate-600 hover:bg-blue-600 hover:text-white hover:border-blue-500 transition-all duration-300 text-slate-300"
                             >
                               <Upload className="h-4 w-4 mr-2" />
                               Upload Magic
@@ -381,17 +379,17 @@ Key visual elements have been identified to create stunning cinematography oppor
                         onChange={(e) => setStoryContent(e.target.value)}
                         placeholder="Enter your story, script, or creative vision here... Describe the world, characters, emotions, and magic you want to create. The more vivid, the better the AI can work its magic! ✨"
                         rows={isGenerated ? 4 : 8}
-                        className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 text-base leading-relaxed bg-white/80 backdrop-blur-sm transition-all duration-300"
+                        className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 text-base leading-relaxed bg-slate-700/50 backdrop-blur-sm transition-all duration-300 text-slate-200 placeholder:text-slate-400"
                         disabled={isSimulating}
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Select value={projectType} onValueChange={setProjectType} disabled={isSimulating}>
-                        <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm h-12">
+                        <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm h-12 text-slate-200">
                           <SelectValue placeholder="🎬 Project Type (Optional)" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-slate-800 border-slate-700">
                           <SelectItem value="film">🎬 Film</SelectItem>
                           <SelectItem value="commercial">📺 Commercial</SelectItem>
                           <SelectItem value="tv_show">📻 TV Show</SelectItem>
@@ -408,21 +406,20 @@ Key visual elements have been identified to create stunning cinematography oppor
                           buttonClicked ? 'scale-95' : 'hover:scale-105'
                         } ${
                           showPulse && !isSimulating 
-                            ? 'bg-gradient-neon animate-glow shadow-glow' 
-                            : 'bg-gradient-primary hover:bg-gradient-secondary'
-                        } border-0 text-white`}
+                            ? 'bg-gradient-to-r from-green-500 to-blue-500 shadow-glow-green' 
+                            : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+                        } border-0 text-white shadow-xl`}
                       >
-                        <div className="absolute inset-0 bg-gradient-secondary opacity-0 hover:opacity-100 transition-opacity duration-300" />
                         {isSimulating ? (
                           <>
-                            <Zap className="h-5 w-5 mr-3 animate-spin relative z-10" />
-                            <span className="relative z-10">Generating Magic...</span>
+                            <Zap className="h-5 w-5 mr-3 animate-spin" />
+                            <span>Generating Magic...</span>
                           </>
                         ) : (
                           <>
-                            <Rocket className="h-5 w-5 mr-3 relative z-10" />
-                            <span className="relative z-10">Generate Magic</span>
-                            <Sparkles className="h-5 w-5 ml-3 animate-pulse relative z-10" />
+                            <Rocket className="h-5 w-5 mr-3" />
+                            <span>Generate Magic</span>
+                            <Sparkles className="h-5 w-5 ml-3 animate-pulse" />
                           </>
                         )}
                       </Button>
@@ -432,14 +429,14 @@ Key visual elements have been identified to create stunning cinematography oppor
               </Card>
             </div>
 
-            {/* Enhanced Simulation Progress */}
+            {/* Simulation Progress */}
             {isSimulating && (
               <div className="space-y-8 animate-in slide-in-from-bottom-8 duration-500">
-                <Card className="border-0 shadow-mega bg-gradient-to-br from-dark-50/90 to-dark-100/90 backdrop-blur-xl text-white">
+                <Card className="border-0 shadow-2xl bg-slate-800/90 backdrop-blur-xl text-white border border-slate-700">
                   <CardContent className="p-10">
                     <div className="text-center space-y-8">
                       <div className="flex items-center justify-center space-x-4">
-                        <div className={`p-4 rounded-full bg-gradient-primary ${simulationSteps[currentStep]?.color}`}>
+                        <div className={`p-4 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 ${simulationSteps[currentStep]?.color}`}>
                           {simulationSteps[currentStep]?.icon}
                         </div>
                         <Heading level={2} variant="heading" className="text-white font-display">
@@ -447,35 +444,35 @@ Key visual elements have been identified to create stunning cinematography oppor
                         </Heading>
                       </div>
                       
-                      <Text className="max-w-2xl mx-auto text-white/90 text-lg">
+                      <Text className="max-w-2xl mx-auto text-slate-300 text-lg">
                         {simulationSteps[currentStep]?.description}
                       </Text>
                       
                       <div className="space-y-4">
                         <Progress 
                           value={simulationProgress} 
-                          className="w-full max-w-2xl mx-auto h-3 bg-dark-200"
+                          className="w-full max-w-2xl mx-auto h-3 bg-slate-700"
                         />
                         <div className="flex items-center justify-center space-x-2">
-                          <Text size="lg" weight="bold" color="white">
+                          <Text size="lg" weight="bold" className="text-white">
                             {Math.round(simulationProgress)}%
                           </Text>
-                          <Text className="text-accent-neon">Complete</Text>
+                          <Text className="text-blue-400">Complete</Text>
                         </div>
                       </div>
 
-                      {/* Enhanced Steps Indicator */}
+                      {/* Steps Indicator */}
                       <div className="flex justify-center space-x-6">
                         {simulationSteps.map((step, index) => (
                           <div key={step.id} className="flex items-center space-x-3">
                             <div className={`w-4 h-4 rounded-full transition-all duration-500 ${
-                              index < currentStep ? 'bg-accent-neon shadow-neon' :
-                              index === currentStep ? 'bg-gradient-primary animate-pulse shadow-electric' :
-                              'bg-dark-300'
+                              index < currentStep ? 'bg-green-500 shadow-glow-green' :
+                              index === currentStep ? 'bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse shadow-glow-blue' :
+                              'bg-slate-600'
                             }`} />
                             {index < simulationSteps.length - 1 && (
                               <div className={`w-12 h-1 transition-all duration-500 ${
-                                index < currentStep ? 'bg-accent-neon' : 'bg-dark-300'
+                                index < currentStep ? 'bg-green-500' : 'bg-slate-600'
                               }`} />
                             )}
                           </div>
@@ -487,32 +484,32 @@ Key visual elements have been identified to create stunning cinematography oppor
               </div>
             )}
 
-            {/* Enhanced Generated Content */}
+            {/* Generated Content */}
             {isGenerated && (
               <div className="space-y-12 animate-in slide-in-from-bottom-8 duration-1000">
                 
                 {/* Enhanced Story Preview */}
                 <div className="space-y-6">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-gradient-success rounded-full px-6 py-3 mb-6 shadow-neon">
+                    <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-full px-6 py-3 mb-6 shadow-xl">
                       <CheckCircle className="h-6 w-6 text-white animate-bounce" />
                       <Text size="base" weight="bold" className="text-white">
                         Story Enhanced Successfully
                       </Text>
-                      <Star className="h-6 w-6 text-accent-yellow animate-spin-slow" />
+                      <Star className="h-6 w-6 text-yellow-400 animate-spin-slow" />
                     </div>
-                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-primary bg-clip-text text-transparent">
+                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                       Your Enhanced Cinematic Story
                     </Heading>
-                    <Text className="text-dark-600 text-lg">
+                    <Text className="text-slate-300 text-lg">
                       AI has transformed your narrative with Hollywood-grade storytelling magic
                     </Text>
                   </div>
 
-                  <Card className="border-0 shadow-mega bg-gradient-to-br from-accent-neon/10 to-primary-500/10 backdrop-blur-xl">
+                  <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
                     <CardContent className="p-8">
                       <div className="prose prose-lg max-w-none">
-                        <Text className="whitespace-pre-wrap leading-relaxed text-dark-800">
+                        <Text className="whitespace-pre-wrap leading-relaxed text-slate-200">
                           {mockEnhancedStory}
                         </Text>
                       </div>
@@ -520,21 +517,21 @@ Key visual elements have been identified to create stunning cinematography oppor
                   </Card>
                 </div>
 
-                {/* Enhanced Matched Talents */}
+                {/* Matched Talents */}
                 {talents?.talents && (
                   <div className="space-y-8">
                     <div className="text-center">
-                      <div className="inline-flex items-center space-x-3 bg-gradient-secondary rounded-full px-6 py-3 mb-6 shadow-pink">
+                      <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full px-6 py-3 mb-6 shadow-xl">
                         <Users className="h-6 w-6 text-white animate-pulse" />
                         <Text size="base" weight="bold" className="text-white">
                           Perfect Matches Found
                         </Text>
-                        <Target className="h-6 w-6 text-accent-yellow animate-bounce" />
+                        <Target className="h-6 w-6 text-yellow-400 animate-bounce" />
                       </div>
-                      <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-secondary bg-clip-text text-transparent">
+                      <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                         AI-Selected Talent Constellation
                       </Heading>
-                      <Text className="text-dark-600 text-lg">
+                      <Text className="text-slate-300 text-lg">
                         Quantum-matched professionals who will bring your vision to life
                       </Text>
                     </div>
@@ -545,41 +542,38 @@ Key visual elements have been identified to create stunning cinematography oppor
                           key={talent.id}
                           className={`transition-all duration-500 ${
                             highlightedTalents.includes(talent.id)
-                              ? 'scale-110 z-10 shadow-glow'
+                              ? 'scale-110 z-10 shadow-glow-blue'
                               : highlightedTalents.length > 0
                               ? 'opacity-40 scale-95'
                               : 'hover:scale-105'
                           }`}
                         >
-                          <Card className="border-0 shadow-mega bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl hover:shadow-glow transition-all duration-300 relative overflow-hidden group">
-                            {/* Animated Background */}
-                            <div className="absolute inset-0 bg-gradient-neon opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-                            
-                            {/* Enhanced Match Score Badge */}
+                          <Card className="border-0 shadow-xl bg-slate-800/80 backdrop-blur-xl hover:shadow-glow-blue transition-all duration-300 relative overflow-hidden group border border-slate-700">
+                            {/* Match Score Badge */}
                             <div className="absolute top-3 right-3 z-10">
-                              <Badge className="bg-gradient-success text-white border-0 shadow-neon animate-pulse font-bold">
+                              <Badge className="bg-gradient-to-r from-green-500 to-blue-500 text-white border-0 shadow-glow-green animate-pulse font-bold">
                                 {95 - index * 3}% ⚡
                               </Badge>
                             </div>
 
                             <CardContent className="p-6 relative z-10">
                               <div className="flex items-center space-x-4 mb-4">
-                                <Avatar className="h-16 w-16 ring-4 ring-primary-200 shadow-electric">
+                                <Avatar className="h-16 w-16 ring-4 ring-blue-500/50 shadow-xl">
                                   <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
-                                  <AvatarFallback className="bg-gradient-primary text-white font-bold text-lg">
+                                  <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg">
                                     {talent.name.split(' ').map(n => n[0]).join('')}
                                   </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center space-x-2">
-                                    <Text weight="bold" className="truncate text-dark-800">
+                                    <Text weight="bold" className="truncate text-slate-200">
                                       {talent.name}
                                     </Text>
                                     {talent.isVerified && (
-                                      <Star className="h-5 w-5 text-accent-yellow fill-current animate-pulse" />
+                                      <Star className="h-5 w-5 text-yellow-400 fill-current animate-pulse" />
                                     )}
                                   </div>
-                                  <Text size="sm" className="truncate text-dark-600 capitalize font-medium">
+                                  <Text size="sm" className="truncate text-slate-400 capitalize font-medium">
                                     {talent.experienceLevel}
                                   </Text>
                                 </div>
@@ -587,20 +581,20 @@ Key visual elements have been identified to create stunning cinematography oppor
                               
                               <div className="flex flex-wrap gap-1 mb-4">
                                 {talent.skills.slice(0, 2).map((skill) => (
-                                  <Badge key={skill} className="text-xs bg-primary-100 text-primary-800 border border-primary-200">
+                                  <Badge key={skill} className="text-xs bg-blue-500/20 text-blue-300 border border-blue-500/30">
                                     {skill}
                                   </Badge>
                                 ))}
                                 {talent.skills.length > 2 && (
-                                  <Badge className="text-xs bg-secondary-100 text-secondary-800 border border-secondary-200">
+                                  <Badge className="text-xs bg-purple-500/20 text-purple-300 border border-purple-500/30">
                                     +{talent.skills.length - 2}
                                   </Badge>
                                 )}
                               </div>
 
-                              {/* Enhanced AI Reasoning */}
-                              <div className="bg-gradient-to-r from-secondary-50 to-primary-50 p-3 rounded-xl mb-4 border border-secondary-200">
-                                <Text size="xs" className="text-secondary-800 font-semibold">
+                              {/* AI Reasoning */}
+                              <div className="bg-gradient-to-r from-slate-700/50 to-slate-600/50 p-3 rounded-xl mb-4 border border-slate-600">
+                                <Text size="xs" className="text-slate-300 font-semibold">
                                   🎯 AI Match: {index === 0 ? 'Perfect for cyberpunk cinematography & neon aesthetics' : 
                                            index === 1 ? 'Ideal for character depth & emotional storytelling' :
                                            index === 2 ? 'Expert in VR sequences & digital world creation' :
@@ -611,7 +605,7 @@ Key visual elements have been identified to create stunning cinematography oppor
                               <Link to={`/talents/${talent.id}`}>
                                 <Button 
                                   size="sm" 
-                                  className="w-full bg-gradient-primary hover:bg-gradient-secondary border-0 text-white font-semibold transition-all duration-300 hover:shadow-electric"
+                                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 text-white font-semibold transition-all duration-300 shadow-xl"
                                 >
                                   View Profile ⚡
                                 </Button>
@@ -624,31 +618,31 @@ Key visual elements have been identified to create stunning cinematography oppor
                   </div>
                 )}
 
-                {/* Enhanced Story Timeline */}
+                {/* Story Timeline */}
                 <div className="space-y-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-gradient-fire rounded-full px-6 py-3 mb-6 shadow-pink">
+                    <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-orange-600 to-red-600 rounded-full px-6 py-3 mb-6 shadow-xl">
                       <Clock className="h-6 w-6 text-white animate-spin-slow" />
                       <Text size="base" weight="bold" className="text-white">
                         Production Timeline Created
                       </Text>
                       <Rocket className="h-6 w-6 text-white animate-bounce" />
                     </div>
-                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-fire bg-clip-text text-transparent">
+                    <Heading level={2} variant="heading" className="mb-4 font-display bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                       Story Timeline & Talent Constellation
                     </Heading>
-                    <Text className="text-dark-600 text-lg">
+                    <Text className="text-slate-300 text-lg">
                       Hover over story acts to see which talents are perfect for each epic scene
                     </Text>
                   </div>
 
-                  <Card className="border-0 shadow-mega bg-gradient-to-br from-dark-50/90 to-dark-100/90 backdrop-blur-xl">
+                  <Card className="border-0 shadow-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700">
                     <CardContent className="p-10">
                       <div className="relative">
-                        {/* Enhanced Timeline Line */}
-                        <div className="absolute top-1/2 left-0 right-0 h-2 bg-gradient-neon rounded-full transform -translate-y-1/2 shadow-neon"></div>
+                        {/* Timeline Line */}
+                        <div className="absolute top-1/2 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transform -translate-y-1/2 shadow-glow-blue"></div>
                         
-                        {/* Enhanced Story Acts */}
+                        {/* Story Acts */}
                         <div className="relative flex justify-between items-center h-20">
                           {storyActs.map((act) => (
                             <div
@@ -658,42 +652,42 @@ Key visual elements have been identified to create stunning cinematography oppor
                               onMouseEnter={() => handleActHover(act.id)}
                               onMouseLeave={() => handleActHover(null)}
                             >
-                              {/* Enhanced Act Marker */}
-                              <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${act.color} border-4 border-white shadow-mega transform transition-all duration-300 group-hover:scale-150 group-hover:shadow-glow ${hoveredAct === act.id ? 'scale-150 shadow-glow animate-pulse' : ''} flex items-center justify-center`}>
+                              {/* Act Marker */}
+                              <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${act.color} border-4 border-white shadow-xl transform transition-all duration-300 group-hover:scale-150 group-hover:shadow-glow-blue ${hoveredAct === act.id ? 'scale-150 shadow-glow-blue animate-pulse' : ''} flex items-center justify-center`}>
                                 <div className="text-white">
                                   {act.icon}
                                 </div>
                               </div>
 
-                              {/* Enhanced Tooltip */}
+                              {/* Tooltip */}
                               <div className={`absolute bottom-full mb-6 left-1/2 transform -translate-x-1/2 transition-all duration-300 ${hoveredAct === act.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-                                <div className="bg-gradient-to-r from-dark-900 to-dark-800 text-white p-6 rounded-2xl shadow-mega max-w-xs border border-white/20 backdrop-blur-xl">
+                                <div className="bg-slate-800 text-white p-6 rounded-2xl shadow-2xl max-w-xs border border-slate-700 backdrop-blur-xl">
                                   <div className="flex items-center space-x-3 mb-3">
                                     <div className={`p-2 rounded-full bg-gradient-to-r ${act.color}`}>
                                       {act.icon}
                                     </div>
-                                    <Text weight="bold" color="white" size="base">
+                                    <Text weight="bold" className="text-white text-base">
                                       {act.title}
                                     </Text>
                                   </div>
-                                  <Text size="sm" color="white" className="leading-relaxed mb-4">
+                                  <Text size="sm" className="text-slate-300 leading-relaxed mb-4">
                                     {act.description}
                                   </Text>
-                                  <div className="pt-3 border-t border-white/20">
-                                    <Text size="sm" color="white" weight="semibold">
+                                  <div className="pt-3 border-t border-slate-600">
+                                    <Text size="sm" className="text-white font-semibold">
                                       ⚡ Matched Talents: {act.talents.length}
                                     </Text>
                                   </div>
-                                  {/* Enhanced Arrow */}
+                                  {/* Arrow */}
                                   <div className="absolute top-full left-1/2 transform -translate-x-1/2">
-                                    <div className="w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-dark-900"></div>
+                                    <div className="w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-slate-800"></div>
                                   </div>
                                 </div>
                               </div>
 
-                              {/* Enhanced Act Label */}
+                              {/* Act Label */}
                               <div className="absolute top-full mt-6 left-1/2 transform -translate-x-1/2 text-center">
-                                <Text size="sm" weight="bold" className="whitespace-nowrap text-dark-800">
+                                <Text size="sm" weight="bold" className="whitespace-nowrap text-slate-200">
                                   {act.title}
                                 </Text>
                               </div>
@@ -705,17 +699,17 @@ Key visual elements have been identified to create stunning cinematography oppor
                   </Card>
                 </div>
 
-                {/* Enhanced Call to Action */}
+                {/* Call to Action */}
                 <div className="text-center space-y-8">
-                  <Card className="border-0 shadow-mega bg-gradient-to-br from-primary-500/10 to-secondary-500/10 backdrop-blur-xl">
+                  <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
                     <CardContent className="p-10">
                       <div className="flex items-center justify-center mb-6">
-                        <Crown className="h-16 w-16 text-accent-yellow animate-float" />
+                        <Crown className="h-16 w-16 text-yellow-400 animate-float" />
                       </div>
-                      <Heading level={2} variant="heading" className="mb-6 font-display bg-gradient-neon bg-clip-text text-transparent">
+                      <Heading level={2} variant="heading" className="mb-6 font-display bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                         Ready to Create Magic?
                       </Heading>
-                      <Text className="mb-8 max-w-3xl mx-auto text-dark-600 text-lg leading-relaxed">
+                      <Text className="mb-8 max-w-3xl mx-auto text-slate-300 text-lg leading-relaxed">
                         Your story has been quantum-analyzed and the perfect talent constellation has been mapped. 
                         Take the next step to transform your vision into cinematic reality.
                       </Text>
@@ -723,7 +717,7 @@ Key visual elements have been identified to create stunning cinematography oppor
                         <Link to="/projects/new">
                           <Button 
                             size="lg" 
-                            className="bg-gradient-primary hover:bg-gradient-secondary border-0 shadow-electric text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 shadow-xl text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
                           >
                             Create Full Project
                             <ArrowRight className="ml-3 h-6 w-6" />
@@ -732,7 +726,7 @@ Key visual elements have been identified to create stunning cinematography oppor
                         <Link to="/talents">
                           <Button 
                             size="lg" 
-                            className="bg-gradient-success hover:shadow-neon border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                            className="bg-gradient-to-r from-green-600 to-blue-600 hover:shadow-glow-green border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
                           >
                             <Users className="mr-3 h-6 w-6" />
                             Browse All Talents
@@ -747,7 +741,7 @@ Key visual elements have been identified to create stunning cinematography oppor
                             setSimulationProgress(0);
                             setIsAutoDemo(false);
                           }}
-                          className="bg-gradient-fire hover:shadow-pink border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
+                          className="bg-gradient-to-r from-orange-600 to-red-600 hover:shadow-glow-pink border-0 text-white font-bold px-8 py-4 text-lg transition-all duration-300 hover:scale-105"
                         >
                           Try Another Story
                           <Sparkles className="ml-3 h-6 w-6 animate-pulse" />

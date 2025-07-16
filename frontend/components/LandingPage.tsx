@@ -53,15 +53,15 @@ export function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Hero Section */}
-      <Section variant="elegant" padding="xl">
+      <Section variant="default" padding="xl">
         <Container>
           <div className="relative text-center">
             {/* Floating Badge */}
-            <div className="inline-flex items-center space-x-2 bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 mb-8 shadow-lg border border-primary-200">
-              <Sparkles className="h-5 w-5 text-primary-600" />
-              <Text size="sm" weight="medium" color="default">
+            <div className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-sm rounded-full px-6 py-3 mb-8 shadow-xl border border-slate-700">
+              <Sparkles className="h-5 w-5 text-blue-400" />
+              <Text size="sm" weight="medium" className="text-slate-200">
                 AI-Powered Talent Matching
               </Text>
             </div>
@@ -69,11 +69,11 @@ export function LandingPage() {
             {/* Main Headline */}
             <Heading level={1} variant="display" className="mb-6 leading-tight">
               Where Talent Meets
-              <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700 bg-clip-text text-transparent"> Stardom</span>
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"> Stardom</span>
             </Heading>
             
             {/* Subheadline */}
-            <Text size="xl" color="muted" className="mb-12 max-w-4xl mx-auto leading-relaxed">
+            <Text size="xl" className="mb-12 max-w-4xl mx-auto leading-relaxed text-slate-300">
               The exclusive platform where Hollywood's finest connect with blockbuster opportunities. 
               Join the elite network that transforms talent into legends.
             </Text>
@@ -83,7 +83,7 @@ export function LandingPage() {
               <Link to="/talents/new">
                 <Button 
                   size="lg" 
-                  className="text-lg px-8 py-4 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:from-primary-600 hover:via-primary-700 hover:to-primary-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="text-lg px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white border-0 shadow-xl hover:shadow-glow-blue transition-all duration-300"
                 >
                   Join as Talent
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -93,7 +93,7 @@ export function LandingPage() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="text-lg px-8 py-4 border-2 border-neutral-300 hover:border-primary-300 hover:bg-primary-50 transition-all duration-300"
+                  className="text-lg px-8 py-4 border-2 border-slate-600 hover:border-blue-500 hover:bg-blue-600 hover:text-white transition-all duration-300 text-slate-300"
                 >
                   <Play className="mr-2 h-5 w-5" />
                   Find Talent
@@ -104,12 +104,12 @@ export function LandingPage() {
             {/* Stats Grid */}
             <Grid cols={4} gap="md" className="max-w-4xl mx-auto">
               {stats.map((stat, index) => (
-                <div key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg border border-neutral-200 hover:shadow-xl transition-all duration-300">
-                  <stat.icon className="h-8 w-8 mx-auto mb-3 text-primary-600" />
-                  <Heading level={4} variant="heading" className="text-neutral-900 mb-1">
+                <div key={index} className="bg-slate-800/60 backdrop-blur-sm rounded-2xl p-6 text-center shadow-xl border border-slate-700 hover:shadow-glow-blue transition-all duration-300">
+                  <stat.icon className="h-8 w-8 mx-auto mb-3 text-blue-400" />
+                  <Heading level={4} variant="heading" className="text-slate-200 mb-1">
                     {stat.value}
                   </Heading>
-                  <Text size="sm" color="muted">{stat.label}</Text>
+                  <Text size="sm" className="text-slate-400">{stat.label}</Text>
                 </div>
               ))}
             </Grid>
@@ -121,10 +121,10 @@ export function LandingPage() {
       <Section variant="default" padding="xl">
         <Container>
           <div className="text-center mb-16">
-            <Heading level={2} variant="display" className="mb-6 text-neutral-900">
+            <Heading level={2} variant="display" className="mb-6 text-slate-200">
               Success Stories That Inspire
             </Heading>
-            <Text size="xl" color="muted" className="max-w-3xl mx-auto">
+            <Text size="xl" className="max-w-3xl mx-auto text-slate-300">
               Real talents, real achievements, real careers transformed. 
               See how TalentHub has become the launchpad for industry legends.
             </Text>
@@ -132,8 +132,8 @@ export function LandingPage() {
 
           <Grid cols={3} gap="lg" className="mb-16">
             {successStories.map((story, index) => (
-              <div key={index} className="group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-white border border-neutral-200">
-                <div className="relative h-80 bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 overflow-hidden">
+              <div key={index} className="group overflow-hidden rounded-2xl shadow-xl hover:shadow-glow-blue transition-all duration-500 transform hover:-translate-y-2 bg-slate-800/80 border border-slate-700">
+                <div className="relative h-80 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 overflow-hidden">
                   <img 
                     src={story.image} 
                     alt={story.talent}
@@ -160,11 +160,11 @@ export function LandingPage() {
                 </div>
                 
                 <div className="p-6">
-                  <Text size="sm" color="muted" className="mb-4 leading-relaxed">
+                  <Text size="sm" className="mb-4 leading-relaxed text-slate-300">
                     {story.description}
                   </Text>
-                  <div className="bg-gradient-to-r from-primary-50 to-primary-100 p-4 rounded-xl">
-                    <Text size="sm" weight="semibold" className="text-primary-800">
+                  <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-4 rounded-xl border border-blue-500/20">
+                    <Text size="sm" weight="semibold" className="text-blue-300">
                       {story.impact}
                     </Text>
                   </div>
@@ -175,7 +175,7 @@ export function LandingPage() {
 
           <div className="text-center">
             <Link to="/talents">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 border-neutral-300 hover:border-primary-300 hover:bg-primary-50">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 border-slate-600 hover:border-blue-500 hover:bg-blue-600 hover:text-white text-slate-300">
                 View All Success Stories
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -185,13 +185,13 @@ export function LandingPage() {
       </Section>
 
       {/* Featured Talents */}
-      <Section variant="elegant" padding="xl">
+      <Section variant="default" padding="xl">
         <Container>
           <div className="text-center mb-16">
-            <Heading level={2} variant="display" className="mb-6 text-neutral-900">
+            <Heading level={2} variant="display" className="mb-6 text-slate-200">
               Meet Our Featured Talents
             </Heading>
-            <Text size="xl" color="muted" className="max-w-3xl mx-auto">
+            <Text size="xl" className="max-w-3xl mx-auto text-slate-300">
               Discover the professionals who are shaping the future of entertainment. 
               Each talent brings unique skills and proven track records.
             </Text>
@@ -213,7 +213,7 @@ export function LandingPage() {
                 <Link to="/talents">
                   <Button 
                     size="lg" 
-                    className="text-lg px-8 py-4 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:from-primary-600 hover:via-primary-700 hover:to-primary-800 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="text-lg px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white border-0 shadow-xl hover:shadow-glow-blue transition-all duration-300"
                   >
                     Explore All Talents
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -226,21 +226,21 @@ export function LandingPage() {
       </Section>
 
       {/* CTA Section */}
-      <Section variant="dark" padding="xl">
+      <Section variant="default" padding="xl">
         <Container>
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
-              <Crown className="h-5 w-5 text-primary-400" />
-              <Text size="sm" weight="medium" color="white">
+            <div className="inline-flex items-center space-x-2 bg-slate-800/60 backdrop-blur-sm rounded-full px-6 py-2 mb-6 border border-slate-700">
+              <Crown className="h-5 w-5 text-purple-400" />
+              <Text size="sm" weight="medium" className="text-slate-200">
                 Join the Elite
               </Text>
             </div>
             
-            <Heading level={2} variant="display" className="mb-6 text-white">
+            <Heading level={2} variant="display" className="mb-6 text-slate-200">
               Ready to Transform Your Career?
             </Heading>
             
-            <Text size="xl" className="mb-8 text-white/90 leading-relaxed">
+            <Text size="xl" className="mb-8 text-slate-300 leading-relaxed">
               Join the platform where talent meets opportunity, where dreams become reality, 
               and where your next big break is just one match away.
             </Text>
@@ -249,7 +249,7 @@ export function LandingPage() {
               <Link to="/talents/new">
                 <Button 
                   size="lg" 
-                  className="text-lg px-8 py-4 bg-white text-neutral-900 hover:bg-neutral-100 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="text-lg px-8 py-4 bg-slate-200 text-slate-900 hover:bg-white shadow-xl hover:shadow-glow-blue transition-all duration-300"
                 >
                   Start Your Journey
                   <Sparkles className="ml-2 h-5 w-5" />
@@ -259,7 +259,7 @@ export function LandingPage() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="text-lg px-8 py-4 border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                  className="text-lg px-8 py-4 border-2 border-slate-600 text-slate-300 hover:bg-slate-800 backdrop-blur-sm"
                 >
                   Try AI Story Enhancer
                   <ArrowRight className="ml-2 h-5 w-5" />

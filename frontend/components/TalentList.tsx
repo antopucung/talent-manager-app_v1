@@ -40,13 +40,13 @@ export function TalentList() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-mesh">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <Section variant="default" padding="xl">
           <Container>
             <div className="flex items-center justify-center h-64">
               <div className="text-center space-y-4">
-                <Sparkles className="h-16 w-16 mx-auto text-primary-500 animate-spin" />
-                <Text size="lg" className="text-dark-600 font-semibold">Loading talent constellation...</Text>
+                <Sparkles className="h-16 w-16 mx-auto text-blue-500 animate-spin" />
+                <Text size="lg" className="text-slate-300 font-semibold">Loading talent constellation...</Text>
               </div>
             </div>
           </Container>
@@ -57,11 +57,11 @@ export function TalentList() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-mesh">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <Section variant="default" padding="xl">
           <Container>
             <div className="flex items-center justify-center h-64">
-              <Text size="lg" className="text-status-error font-semibold">Error loading talents</Text>
+              <Text size="lg" className="text-red-400 font-semibold">Error loading talents</Text>
             </div>
           </Container>
         </Section>
@@ -70,49 +70,49 @@ export function TalentList() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-mesh">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Section variant="default" padding="lg">
         <Container>
           <div className="space-y-8">
-            {/* Enhanced Header */}
+            {/* Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <Link to="/">
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="hover:bg-white/20 hover:text-primary-600 text-dark-700 backdrop-blur-sm border border-white/20"
+                    className="hover:bg-slate-800 hover:text-blue-400 text-slate-300 backdrop-blur-sm border border-slate-700"
                   >
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Back to Home
                   </Button>
                 </Link>
                 <div>
-                  <Heading level={1} variant="heading" className="bg-gradient-primary bg-clip-text text-transparent font-display">
+                  <Heading level={1} variant="heading" className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-display">
                     Talent Constellation
                   </Heading>
-                  <Text className="text-dark-600 text-lg">Discover exceptional talent for your next epic project</Text>
+                  <Text className="text-slate-300 text-lg">Discover exceptional talent for your next epic project</Text>
                 </div>
               </div>
               <Link to="/talents/new">
-                <Button className="bg-gradient-secondary hover:bg-gradient-primary border-0 shadow-pink text-white font-bold transition-all duration-300 hover:scale-105">
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 border-0 shadow-xl text-white font-bold transition-all duration-300 hover:scale-105">
                   <Star className="h-4 w-4 mr-2 animate-pulse" />
                   Add New Talent
                 </Button>
               </Link>
             </div>
 
-            {/* Enhanced Filters */}
-            <Card className="border-0 shadow-mega bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl">
+            {/* Filters */}
+            <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
               <CardHeader>
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-primary rounded-lg">
+                  <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
                     <Filter className="h-5 w-5 text-white" />
                   </div>
-                  <Heading level={4} variant="heading" className="bg-gradient-primary bg-clip-text text-transparent">
+                  <Heading level={4} variant="heading" className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     Search & Filter Magic
                   </Heading>
-                  <Sparkles className="h-5 w-5 text-secondary-500 animate-pulse" />
+                  <Sparkles className="h-5 w-5 text-purple-400 animate-pulse" />
                 </div>
               </CardHeader>
               <CardContent>
@@ -121,21 +121,21 @@ export function TalentList() {
                     placeholder="🔍 Search skills..."
                     value={filters.skills}
                     onChange={(e) => handleFilterChange('skills', e.target.value)}
-                    className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                    className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                   />
                   
                   <Input
                     placeholder="📍 Location..."
                     value={filters.location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                    className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                   />
                   
                   <Select value={filters.experienceLevel} onValueChange={(value) => handleFilterChange('experienceLevel', value)}>
-                    <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm">
+                    <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm text-slate-200">
                       <SelectValue placeholder="⭐ Experience Level" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-slate-800 border-slate-700">
                       <SelectItem value="all">All Levels</SelectItem>
                       <SelectItem value="beginner">🌱 Beginner</SelectItem>
                       <SelectItem value="intermediate">🚀 Intermediate</SelectItem>
@@ -145,10 +145,10 @@ export function TalentList() {
                   </Select>
                   
                   <Select value={filters.availability} onValueChange={(value) => handleFilterChange('availability', value)}>
-                    <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm">
+                    <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm text-slate-200">
                       <SelectValue placeholder="🎯 Availability" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-slate-800 border-slate-700">
                       <SelectItem value="all">All</SelectItem>
                       <SelectItem value="available">✅ Available</SelectItem>
                       <SelectItem value="busy">⏰ Busy</SelectItem>
@@ -157,10 +157,10 @@ export function TalentList() {
                   </Select>
                   
                   <Select value={filters.verified?.toString() || 'all'} onValueChange={(value) => handleFilterChange('verified', value === 'true' ? true : value === 'false' ? false : undefined)}>
-                    <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm">
+                    <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm text-slate-200">
                       <SelectValue placeholder="🏆 Verification" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-slate-800 border-slate-700">
                       <SelectItem value="all">All</SelectItem>
                       <SelectItem value="true">✨ Verified Only</SelectItem>
                       <SelectItem value="false">⚪ Unverified</SelectItem>
@@ -170,16 +170,16 @@ export function TalentList() {
               </CardContent>
             </Card>
 
-            {/* Enhanced Results */}
+            {/* Results */}
             {data?.talents && data.talents.length > 0 ? (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <Users className="h-6 w-6 text-primary-500" />
-                    <Text size="lg" weight="bold" className="text-dark-800">
+                    <Users className="h-6 w-6 text-blue-500" />
+                    <Text size="lg" weight="bold" className="text-slate-200">
                       {data.talents.length} Talents Found
                     </Text>
-                    <div className="w-2 h-2 bg-accent-neon rounded-full animate-pulse" />
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                   </div>
                 </div>
                 
@@ -195,17 +195,17 @@ export function TalentList() {
               </div>
             ) : (
               <div className="text-center py-20">
-                <Card className="max-w-md mx-auto border-0 shadow-mega bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl">
+                <Card className="max-w-md mx-auto border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
                   <CardContent className="p-10">
-                    <Search className="h-20 w-20 mx-auto mb-6 text-primary-400 animate-pulse" />
-                    <Heading level={3} variant="heading" className="text-dark-700 mb-4">
+                    <Search className="h-20 w-20 mx-auto mb-6 text-blue-400 animate-pulse" />
+                    <Heading level={3} variant="heading" className="text-slate-200 mb-4">
                       No talents found
                     </Heading>
-                    <Text className="text-dark-600 mb-8 leading-relaxed">
+                    <Text className="text-slate-400 mb-8 leading-relaxed">
                       No talents match your current criteria. Try adjusting your filters or add new talent to the platform.
                     </Text>
                     <Link to="/talents/new">
-                      <Button className="bg-gradient-primary hover:bg-gradient-secondary border-0 text-white font-bold px-8 py-3 transition-all duration-300 hover:scale-105 shadow-electric">
+                      <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 text-white font-bold px-8 py-3 transition-all duration-300 hover:scale-105 shadow-xl">
                         <Star className="h-5 w-5 mr-2 animate-pulse" />
                         Add the First Talent
                       </Button>

@@ -142,57 +142,57 @@ export function TalentForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-mesh">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Section variant="default" padding="lg">
         <Container size="md">
           <div className="space-y-8">
-            {/* Enhanced Header */}
+            {/* Header */}
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={() => navigate(-1)} 
-                className="hover:bg-white/20 backdrop-blur-sm border border-white/20 text-dark-700 hover:text-primary-600"
+                className="hover:bg-slate-800 hover:text-blue-400 text-slate-300 backdrop-blur-sm border border-slate-700"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div>
-                <Heading level={1} variant="heading" className="bg-gradient-primary bg-clip-text text-transparent font-display">
+                <Heading level={1} variant="heading" className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-display">
                   {isEditing ? 'Edit Talent Profile' : 'Add New Talent'}
                 </Heading>
-                <Text className="text-dark-600 text-lg">
+                <Text className="text-slate-300 text-lg">
                   {isEditing ? 'Update talent information and portfolio' : 'Create a new talent profile for the constellation'}
                 </Text>
               </div>
             </div>
 
-            {/* Enhanced Form */}
-            <Card className="border-0 shadow-mega bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl">
+            {/* Form */}
+            <Card className="border-0 shadow-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700">
               <CardHeader>
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-primary rounded-lg">
+                  <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
                     <Star className="h-5 w-5 text-white" />
                   </div>
-                  <Heading level={3} variant="heading" className="bg-gradient-primary bg-clip-text text-transparent">
+                  <Heading level={3} variant="heading" className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     Talent Information
                   </Heading>
-                  <Sparkles className="h-5 w-5 text-secondary-500 animate-pulse" />
+                  <Sparkles className="h-5 w-5 text-purple-400 animate-pulse" />
                 </div>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Basic Information */}
                   <div className="space-y-6">
-                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-gradient-primary">
-                      <Zap className="h-5 w-5 text-primary-500" />
-                      <Heading level={4} variant="heading" className="text-dark-800">
+                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-blue-500/30">
+                      <Zap className="h-5 w-5 text-blue-500" />
+                      <Heading level={4} variant="heading" className="text-slate-200">
                         Basic Information
                       </Heading>
                     </div>
                     
                     <Grid cols={2} gap="md">
                       <div className="space-y-2">
-                        <Label htmlFor="name" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="name" className="text-sm font-bold text-slate-300">
                           ✨ Full Name *
                         </Label>
                         <Input
@@ -200,13 +200,13 @@ export function TalentForm() {
                           value={formData.name}
                           onChange={(e) => handleInputChange('name', e.target.value)}
                           required
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="Enter full name"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="email" className="text-sm font-bold text-slate-300">
                           📧 Email Address *
                         </Label>
                         <Input
@@ -215,7 +215,7 @@ export function TalentForm() {
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
                           required
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="Enter email address"
                         />
                       </div>
@@ -223,34 +223,34 @@ export function TalentForm() {
 
                     <Grid cols={2} gap="md">
                       <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="phone" className="text-sm font-bold text-slate-300">
                           📱 Phone Number
                         </Label>
                         <Input
                           id="phone"
                           value={formData.phone}
                           onChange={(e) => handleInputChange('phone', e.target.value)}
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="Enter phone number"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="location" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="location" className="text-sm font-bold text-slate-300">
                           📍 Location
                         </Label>
                         <Input
                           id="location"
                           value={formData.location}
                           onChange={(e) => handleInputChange('location', e.target.value)}
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="City, State/Country"
                         />
                       </div>
                     </Grid>
 
                     <div className="space-y-2">
-                      <Label htmlFor="bio" className="text-sm font-bold text-dark-700">
+                      <Label htmlFor="bio" className="text-sm font-bold text-slate-300">
                         📝 Professional Bio
                       </Label>
                       <Textarea
@@ -258,13 +258,13 @@ export function TalentForm() {
                         value={formData.bio}
                         onChange={(e) => handleInputChange('bio', e.target.value)}
                         rows={4}
-                        className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                        className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                         placeholder="Tell us about this talent's experience, achievements, and specialties..."
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="profileImageUrl" className="text-sm font-bold text-dark-700">
+                      <Label htmlFor="profileImageUrl" className="text-sm font-bold text-slate-300">
                         🖼️ Profile Image URL
                       </Label>
                       <div className="flex space-x-2">
@@ -272,13 +272,13 @@ export function TalentForm() {
                           id="profileImageUrl"
                           value={formData.profileImageUrl}
                           onChange={(e) => handleInputChange('profileImageUrl', e.target.value)}
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="https://example.com/image.jpg"
                         />
                         <Button 
                           type="button" 
                           variant="outline" 
-                          className="border-2 border-primary-300 hover:bg-gradient-primary hover:text-white"
+                          className="border-2 border-slate-600 hover:bg-blue-600 hover:text-white text-slate-300"
                         >
                           <Upload className="h-4 w-4" />
                         </Button>
@@ -288,28 +288,28 @@ export function TalentForm() {
 
                   {/* Skills & Expertise */}
                   <div className="space-y-6">
-                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-gradient-secondary">
-                      <Star className="h-5 w-5 text-secondary-500" />
-                      <Heading level={4} variant="heading" className="text-dark-800">
+                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-purple-500/30">
+                      <Star className="h-5 w-5 text-purple-500" />
+                      <Heading level={4} variant="heading" className="text-slate-200">
                         Skills & Expertise
                       </Heading>
                     </div>
                     
                     <div className="space-y-2">
-                      <Label className="text-sm font-bold text-dark-700">🎯 Skills</Label>
+                      <Label className="text-sm font-bold text-slate-300">🎯 Skills</Label>
                       <div className="flex space-x-2">
                         <Input
                           value={newSkill}
                           onChange={(e) => setNewSkill(e.target.value)}
                           placeholder="Add a skill..."
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
                         />
                         <Button 
                           type="button" 
                           onClick={addSkill} 
                           size="sm"
-                          className="bg-gradient-secondary hover:bg-gradient-primary text-white border-0 transition-all duration-300"
+                          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 transition-all duration-300"
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
@@ -318,13 +318,13 @@ export function TalentForm() {
                         {formData.skills.map((skill) => (
                           <Badge 
                             key={skill} 
-                            className="flex items-center space-x-1 bg-gradient-primary text-white border-0 shadow-electric"
+                            className="flex items-center space-x-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white border-0 shadow-xl"
                           >
                             <span>{skill}</span>
                             <button
                               type="button"
                               onClick={() => removeSkill(skill)}
-                              className="ml-1 hover:text-accent-red transition-colors"
+                              className="ml-1 hover:text-red-300 transition-colors"
                             >
                               <X className="h-3 w-3" />
                             </button>
@@ -336,23 +336,23 @@ export function TalentForm() {
 
                   {/* Professional Details */}
                   <div className="space-y-6">
-                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-gradient-success">
-                      <Zap className="h-5 w-5 text-accent-neon" />
-                      <Heading level={4} variant="heading" className="text-dark-800">
+                    <div className="flex items-center space-x-2 pb-4 border-b-2 border-green-500/30">
+                      <Zap className="h-5 w-5 text-green-500" />
+                      <Heading level={4} variant="heading" className="text-slate-200">
                         Professional Details
                       </Heading>
                     </div>
                     
                     <Grid cols={3} gap="md">
                       <div className="space-y-2">
-                        <Label htmlFor="experienceLevel" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="experienceLevel" className="text-sm font-bold text-slate-300">
                           ⭐ Experience Level
                         </Label>
                         <Select value={formData.experienceLevel} onValueChange={(value) => handleInputChange('experienceLevel', value)}>
-                          <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm">
+                          <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm text-slate-200">
                             <SelectValue placeholder="Select level" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-slate-800 border-slate-700">
                             <SelectItem value="beginner">🌱 Beginner</SelectItem>
                             <SelectItem value="intermediate">🚀 Intermediate</SelectItem>
                             <SelectItem value="advanced">⚡ Advanced</SelectItem>
@@ -362,7 +362,7 @@ export function TalentForm() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="hourlyRate" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="hourlyRate" className="text-sm font-bold text-slate-300">
                           💰 Hourly Rate ($)
                         </Label>
                         <Input
@@ -371,20 +371,20 @@ export function TalentForm() {
                           step="0.01"
                           value={formData.hourlyRate}
                           onChange={(e) => handleInputChange('hourlyRate', e.target.value)}
-                          className="border-2 border-primary-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-200 bg-white/80 backdrop-blur-sm"
+                          className="border-2 border-slate-600 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 bg-slate-700/50 backdrop-blur-sm text-slate-200 placeholder:text-slate-400"
                           placeholder="0.00"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="availability" className="text-sm font-bold text-dark-700">
+                        <Label htmlFor="availability" className="text-sm font-bold text-slate-300">
                           🎯 Availability
                         </Label>
                         <Select value={formData.availability} onValueChange={(value) => handleInputChange('availability', value)}>
-                          <SelectTrigger className="border-2 border-primary-200 focus:border-primary-500 bg-white/80 backdrop-blur-sm">
+                          <SelectTrigger className="border-2 border-slate-600 focus:border-blue-500 bg-slate-700/50 backdrop-blur-sm text-slate-200">
                             <SelectValue placeholder="Select availability" />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className="bg-slate-800 border-slate-700">
                             <SelectItem value="available">✅ Available</SelectItem>
                             <SelectItem value="busy">⏰ Busy</SelectItem>
                             <SelectItem value="unavailable">❌ Unavailable</SelectItem>
@@ -394,15 +394,15 @@ export function TalentForm() {
                     </Grid>
                   </div>
 
-                  {/* Enhanced Form Actions */}
-                  <div className="flex space-x-4 pt-8 border-t-2 border-gradient-primary">
+                  {/* Form Actions */}
+                  <div className="flex space-x-4 pt-8 border-t-2 border-blue-500/30">
                     <Button 
                       type="submit" 
                       disabled={createMutation.isPending || updateMutation.isPending || isSubmitting}
                       className={`flex-1 font-bold text-lg py-4 transition-all duration-300 border-0 text-white ${
                         isSubmitting 
-                          ? 'bg-gradient-success animate-pulse shadow-neon' 
-                          : 'bg-gradient-primary hover:bg-gradient-secondary shadow-electric hover:shadow-glow hover:scale-105'
+                          ? 'bg-gradient-to-r from-green-600 to-blue-600 animate-pulse shadow-glow-green' 
+                          : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-glow-blue hover:scale-105'
                       }`}
                     >
                       {createMutation.isPending || updateMutation.isPending || isSubmitting ? (
@@ -422,7 +422,7 @@ export function TalentForm() {
                       type="button" 
                       variant="outline" 
                       onClick={() => navigate(-1)}
-                      className="border-2 border-dark-300 hover:bg-dark-100 text-dark-700 font-semibold px-8"
+                      className="border-2 border-slate-600 hover:bg-slate-700 text-slate-300 font-semibold px-8"
                     >
                       Cancel
                     </Button>

@@ -8,13 +8,13 @@ interface ProgressProps {
 
 export function Progress({ value, className }: ProgressProps) {
   return (
-    <div className={cn('w-full bg-dark-200/30 rounded-full h-3 backdrop-blur-sm border border-white/10', className)}>
+    <div className={cn('w-full bg-slate-700/50 rounded-full h-3 backdrop-blur-sm border border-slate-600', className)}>
       <div
         className={cn(
           'h-3 rounded-full transition-all duration-500 relative overflow-hidden',
           value === undefined 
-            ? 'bg-gradient-neon animate-pulse shadow-neon' 
-            : 'bg-gradient-neon shadow-neon'
+            ? 'bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse shadow-glow-blue' 
+            : 'bg-gradient-to-r from-blue-500 to-purple-500 shadow-glow-blue'
         )}
         style={{ width: value !== undefined ? `${value}%` : '60%' }}
       >
