@@ -60,6 +60,21 @@ export default {
         'gradient-dark': 'linear-gradient(135deg, #171717 0%, #262626 100%)',
         'gradient-elegant': 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
       },
+      animation: {
+        'in': 'slideInFromBottom 0.5s ease-out',
+      },
+      keyframes: {
+        slideInFromBottom: {
+          '0%': {
+            transform: 'translateY(100%)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+            opacity: '1',
+          },
+        },
+      },
     },
   },
   plugins: [],

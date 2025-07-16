@@ -12,6 +12,7 @@ export function Navigation() {
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
+    { path: '/landing', label: 'Gallery', icon: Star },
     { path: '/talents', label: 'Talents', icon: Users },
     { path: '/talents/new', label: 'Add Talent', icon: Plus },
     { path: '/projects/new', label: 'New Project', icon: Film },
