@@ -12,7 +12,7 @@ export function Progress({ value, className }: ProgressProps) {
       <div
         className={cn(
           'h-2 rounded-full transition-all duration-500 bg-primary-600',
-          value === undefined && 'animate-pulse'
+          value === undefined && 'animate-pulse bg-primary-500'
         )}
         style={{ width: value !== undefined ? `${value}%` : '60%' }}
       />

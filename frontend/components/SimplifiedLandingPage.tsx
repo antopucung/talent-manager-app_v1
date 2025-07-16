@@ -237,7 +237,7 @@ Key enhancements include:
 The enhanced version provides a solid foundation for a compelling visual narrative that will resonate with audiences and attract top-tier talent for production.`;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
       <Section variant="default" padding="xl">
         <Container size="lg">
@@ -245,7 +245,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
             
             {/* Header */}
             <div className="text-center relative">
-              <div className="inline-flex items-center space-x-3 bg-neutral-100 rounded-full px-6 py-3 mb-8">
+              <div className="inline-flex items-center space-x-3 bg-white rounded-full px-6 py-3 mb-8 border border-neutral-200 shadow-sm">
                 <Sparkles className="h-5 w-5 text-primary-600" />
                 <Text size="sm" weight="medium" className="text-neutral-700">
                   AI-Powered Creative Platform
@@ -269,7 +269,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                   <Button 
                     onClick={startDemo}
                     size="lg"
-                    className="group bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-lg font-medium transition-all duration-300 hover:shadow-apple-lg"
+                    className="group bg-neutral-900 hover:bg-neutral-800 text-white px-8 py-4 text-lg font-medium transition-all duration-300 hover:shadow-lg"
                   >
                     <Play className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
                     <span>Experience Demo</span>
@@ -280,7 +280,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
 
             {/* Story Input Section */}
             <div className={`transition-all duration-700 ${isGenerated ? 'max-w-2xl' : 'max-w-4xl mx-auto'}`}>
-              <Card className="border border-neutral-200 shadow-apple bg-white">
+              <Card className="border border-neutral-200 shadow-lg bg-white">
                 <CardContent className="p-8">
                   <div className="space-y-6">
                     <div className="space-y-4">
@@ -295,30 +295,30 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                         onChange={(e) => setStoryContent(e.target.value)}
                         placeholder="Describe your creative vision, story concept, or project idea. The more detail you provide, the better we can match you with the perfect talent..."
                         rows={isGenerated ? 4 : 6}
-                        className="border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 text-base leading-relaxed bg-white resize-none"
+                        className="border-2 border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 text-base leading-relaxed bg-white resize-none text-neutral-900 placeholder:text-neutral-500"
                         disabled={isSimulating}
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Select value={projectType} onValueChange={setProjectType} disabled={isSimulating}>
-                        <SelectTrigger className="border-neutral-200 focus:border-primary-500 bg-white h-12">
+                        <SelectTrigger className="border-2 border-neutral-200 focus:border-primary-500 bg-white h-12 text-neutral-900">
                           <SelectValue placeholder="Project Type (Optional)" />
                         </SelectTrigger>
                         <SelectContent className="bg-white border-neutral-200">
-                          <SelectItem value="film">Film</SelectItem>
-                          <SelectItem value="commercial">Commercial</SelectItem>
-                          <SelectItem value="tv_show">TV Show</SelectItem>
-                          <SelectItem value="documentary">Documentary</SelectItem>
-                          <SelectItem value="music_video">Music Video</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                          <SelectItem value="film" className="text-neutral-900 hover:bg-neutral-50">Film</SelectItem>
+                          <SelectItem value="commercial" className="text-neutral-900 hover:bg-neutral-50">Commercial</SelectItem>
+                          <SelectItem value="tv_show" className="text-neutral-900 hover:bg-neutral-50">TV Show</SelectItem>
+                          <SelectItem value="documentary" className="text-neutral-900 hover:bg-neutral-50">Documentary</SelectItem>
+                          <SelectItem value="music_video" className="text-neutral-900 hover:bg-neutral-50">Music Video</SelectItem>
+                          <SelectItem value="other" className="text-neutral-900 hover:bg-neutral-50">Other</SelectItem>
                         </SelectContent>
                       </Select>
 
                       <Button 
                         onClick={handleGenerate}
                         disabled={isSimulating || !storyContent.trim()}
-                        className="h-12 font-semibold text-base bg-primary-600 hover:bg-primary-700 text-white transition-all duration-300 hover:shadow-apple"
+                        className="h-12 font-semibold text-base bg-primary-600 hover:bg-primary-700 text-white transition-all duration-300 hover:shadow-lg"
                       >
                         {isSimulating ? (
                           <>
@@ -341,7 +341,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
             {/* Simulation Progress */}
             {isSimulating && (
               <div className="space-y-8 animate-fade-in">
-                <Card className="border border-neutral-200 shadow-apple-lg bg-white">
+                <Card className="border border-neutral-200 shadow-lg bg-white">
                   <CardContent className="p-10">
                     <div className="text-center space-y-8">
                       <div className="flex items-center justify-center space-x-4">
@@ -360,7 +360,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                       <div className="space-y-4">
                         <Progress 
                           value={simulationProgress} 
-                          className="w-full max-w-2xl mx-auto h-2 bg-neutral-100"
+                          className="w-full max-w-2xl mx-auto h-2 bg-neutral-200"
                         />
                         <div className="flex items-center justify-center space-x-2">
                           <Text size="lg" weight="semibold" className="text-neutral-900">
@@ -377,11 +377,11 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                             <div className={`w-3 h-3 rounded-full transition-all duration-500 ${
                               index < currentStep ? 'bg-primary-600' :
                               index === currentStep ? 'bg-primary-600 animate-pulse' :
-                              'bg-neutral-200'
+                              'bg-neutral-300'
                             }`} />
                             {index < simulationSteps.length - 1 && (
                               <div className={`w-8 h-0.5 transition-all duration-500 ${
-                                index < currentStep ? 'bg-primary-600' : 'bg-neutral-200'
+                                index < currentStep ? 'bg-primary-600' : 'bg-neutral-300'
                               }`} />
                             )}
                           </div>
@@ -400,7 +400,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                 {/* Enhanced Story Preview */}
                 <div className="space-y-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-status-success/10 text-status-success rounded-full px-6 py-3 mb-6">
+                    <div className="inline-flex items-center space-x-3 bg-green-50 text-green-700 rounded-full px-6 py-3 mb-6 border border-green-200">
                       <CheckCircle className="h-5 w-5" />
                       <Text size="sm" weight="semibold">
                         Story Enhanced Successfully
@@ -414,7 +414,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                     </Text>
                   </div>
 
-                  <Card className="border border-neutral-200 shadow-apple bg-white">
+                  <Card className="border border-neutral-200 shadow-lg bg-white">
                     <CardContent className="p-8">
                       <div className="prose prose-lg max-w-none">
                         <Text className="whitespace-pre-wrap leading-relaxed text-neutral-700">
@@ -429,7 +429,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                 {talents?.talents && (
                   <div className="space-y-8">
                     <div className="text-center">
-                      <div className="inline-flex items-center space-x-3 bg-primary-50 text-primary-600 rounded-full px-6 py-3 mb-6">
+                      <div className="inline-flex items-center space-x-3 bg-blue-50 text-blue-700 rounded-full px-6 py-3 mb-6 border border-blue-200">
                         <Users className="h-5 w-5" />
                         <Text size="sm" weight="semibold">
                           Perfect Matches Found
@@ -455,10 +455,10 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                               : 'hover:scale-105'
                           }`}
                         >
-                          <Card className="border border-neutral-200 shadow-apple hover:shadow-apple-lg transition-all duration-300 bg-white group">
+                          <Card className="border border-neutral-200 shadow-lg hover:shadow-xl transition-all duration-300 bg-white group">
                             {/* Match Score Badge */}
                             <div className="absolute top-3 right-3 z-10">
-                              <Badge className="bg-status-success text-white border-0 font-semibold">
+                              <Badge className="bg-green-600 text-white border-0 font-semibold">
                                 {95 - index * 3}%
                               </Badge>
                             </div>
@@ -467,7 +467,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                               <div className="flex items-center space-x-4 mb-4">
                                 <Avatar className="h-14 w-14 ring-2 ring-neutral-100">
                                   <AvatarImage src={talent.profileImageUrl} alt={talent.name} />
-                                  <AvatarFallback className="bg-neutral-100 text-neutral-600 font-semibold">
+                                  <AvatarFallback className="bg-neutral-600 text-white font-semibold">
                                     {talent.name.split(' ').map(n => n[0]).join('')}
                                   </AvatarFallback>
                                 </Avatar>
@@ -477,7 +477,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                                       {talent.name}
                                     </Text>
                                     {talent.isVerified && (
-                                      <Star className="h-4 w-4 text-film-gold fill-current" />
+                                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
                                     )}
                                   </div>
                                   <Text size="sm" className="truncate text-neutral-500 capitalize">
@@ -488,20 +488,20 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                               
                               <div className="flex flex-wrap gap-1 mb-4">
                                 {talent.skills.slice(0, 2).map((skill) => (
-                                  <Badge key={skill} variant="secondary" className="text-xs bg-neutral-100 text-neutral-600">
+                                  <Badge key={skill} variant="secondary" className="text-xs bg-neutral-100 text-neutral-700 border border-neutral-200">
                                     {skill}
                                   </Badge>
                                 ))}
                                 {talent.skills.length > 2 && (
-                                  <Badge variant="secondary" className="text-xs bg-neutral-100 text-neutral-600">
+                                  <Badge variant="secondary" className="text-xs bg-neutral-100 text-neutral-700 border border-neutral-200">
                                     +{talent.skills.length - 2}
                                   </Badge>
                                 )}
                               </div>
 
                               {/* AI Reasoning */}
-                              <div className="bg-neutral-50 p-3 rounded-lg mb-4">
-                                <Text size="xs" className="text-neutral-600 font-medium">
+                              <div className="bg-neutral-50 p-3 rounded-lg mb-4 border border-neutral-200">
+                                <Text size="xs" className="text-neutral-700 font-medium">
                                   {index === 0 ? 'Perfect for narrative development & character depth' : 
                                    index === 1 ? 'Ideal for visual storytelling & cinematography' :
                                    index === 2 ? 'Expert in technical production & post-production' :
@@ -528,7 +528,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                 {/* Story Timeline */}
                 <div className="space-y-8">
                   <div className="text-center">
-                    <div className="inline-flex items-center space-x-3 bg-film-gold/10 text-film-gold rounded-full px-6 py-3 mb-6">
+                    <div className="inline-flex items-center space-x-3 bg-yellow-50 text-yellow-700 rounded-full px-6 py-3 mb-6 border border-yellow-200">
                       <Film className="h-5 w-5" />
                       <Text size="sm" weight="semibold">
                         Production Timeline
@@ -542,11 +542,11 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                     </Text>
                   </div>
 
-                  <Card className="border border-neutral-200 shadow-apple bg-white">
+                  <Card className="border border-neutral-200 shadow-lg bg-white">
                     <CardContent className="p-10">
                       <div className="relative">
                         {/* Timeline Line */}
-                        <div className="absolute top-1/2 left-0 right-0 h-1 bg-neutral-200 rounded-full transform -translate-y-1/2"></div>
+                        <div className="absolute top-1/2 left-0 right-0 h-1 bg-neutral-300 rounded-full transform -translate-y-1/2"></div>
                         
                         {/* Story Acts */}
                         <div className="relative flex justify-between items-center h-16">
@@ -559,7 +559,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                               onMouseLeave={() => handleActHover(null)}
                             >
                               {/* Act Marker */}
-                              <div className={`w-6 h-6 rounded-full bg-primary-600 border-4 border-white shadow-apple transform transition-all duration-300 group-hover:scale-150 ${hoveredAct === act.id ? 'scale-150' : ''} flex items-center justify-center`}>
+                              <div className={`w-6 h-6 rounded-full bg-primary-600 border-4 border-white shadow-lg transform transition-all duration-300 group-hover:scale-150 ${hoveredAct === act.id ? 'scale-150' : ''} flex items-center justify-center`}>
                                 <div className="text-white text-xs">
                                   {act.icon}
                                 </div>
@@ -567,7 +567,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
 
                               {/* Tooltip */}
                               <div className={`absolute bottom-full mb-4 left-1/2 transform -translate-x-1/2 transition-all duration-300 ${hoveredAct === act.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
-                                <div className="bg-white border border-neutral-200 shadow-apple-lg p-4 rounded-apple max-w-xs">
+                                <div className="bg-white border border-neutral-200 shadow-xl p-4 rounded-lg max-w-xs">
                                   <div className="flex items-center space-x-2 mb-2">
                                     <div className="p-1 rounded bg-primary-50 text-primary-600">
                                       {act.icon}
@@ -603,7 +603,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
 
                 {/* Call to Action */}
                 <div className="text-center space-y-8">
-                  <Card className="border border-neutral-200 shadow-apple bg-white">
+                  <Card className="border border-neutral-200 shadow-lg bg-white">
                     <CardContent className="p-10">
                       <Heading level={2} variant="heading" className="mb-6 text-neutral-900">
                         Ready to Begin Production?
@@ -616,7 +616,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                         <Link to="/projects/new">
                           <Button 
                             size="lg" 
-                            className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold px-8 py-4 text-lg transition-all duration-300 hover:shadow-apple-lg"
+                            className="bg-neutral-900 hover:bg-neutral-800 text-white font-semibold px-8 py-4 text-lg transition-all duration-300 hover:shadow-lg"
                           >
                             Create Project
                             <ArrowRight className="ml-3 h-5 w-5" />
@@ -626,7 +626,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                           <Button 
                             size="lg" 
                             variant="outline"
-                            className="border-2 border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
+                            className="border-2 border-neutral-300 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
                           >
                             <Users className="mr-3 h-5 w-5" />
                             Browse All Talent
@@ -642,7 +642,7 @@ The enhanced version provides a solid foundation for a compelling visual narrati
                             setSimulationProgress(0);
                             setIsAutoDemo(false);
                           }}
-                          className="border-2 border-neutral-200 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
+                          className="border-2 border-neutral-300 hover:bg-neutral-50 text-neutral-900 font-semibold px-8 py-4 text-lg transition-all duration-300"
                         >
                           Try Another Story
                           <Sparkles className="ml-3 h-5 w-5" />
